@@ -2,7 +2,8 @@
 
 This project was created with [Create React App](https://github.com/facebook/create-react-app).
 
-`This project loads & displays the 10 most recent blocks from the ethereum chain and displays curated data.`
+`This project loads & displays the 10 most recent blocks\
+from the ethereum chain and displays curated data.`
 
 ## Key Features
 
