@@ -33,9 +33,9 @@ const App = () => {
     const enableAllLiveUpdates = useRef(true);
 
     // added state to rerender the buttons
+    const [toggleAllLiveUpdatesState, setToggleAllLiveUpdatesState] = useState(true);
     const [toggleLiveBlockUpdatesState, setToggleLiveBlockUpdatesState] = useState(true);
     const [toggleLiveDashboardUpdatesState, setToggleLiveDashboardUpdatesState] = useState(true);
-    const [toggleAllLiveUpdatesState, setToggleAllLiveUpdatesState] = useState(true);
 
     // toggle updates - enable or disable all forms of update
     const toggleAllLiveUpdates = async () => {
@@ -185,7 +185,7 @@ const App = () => {
             let previousAllLiveUpdateState = enableAllLiveUpdates.current;
 
             // disable all live updates due to rate limiting that may occur when collecting total tx fees from a given block
-            if (enableAllLiveUpdates.current) enableAllLiveUpdates.current = false;
+            if (enableAllLiveUpdates.current) toggleAllLiveUpdates();
             let counter = 0
             for await (let tx of blockTxs) {
                 let txFee = await getTxFee(providers.ethWSS, tx.hash)
@@ -194,8 +194,8 @@ const App = () => {
                 console.log({ progress: `${counter}/${blockTxsLength}` })
             }
             let blockRewardData = fixedNoRound2(staticData.blockReward + blockGasPaid - blockGasBurned);
-            // restore user allUpdate state incase it was enabled
-            enableAllLiveUpdates.current = previousAllLiveUpdateState;
+            // restore user toggleAllLiveUpdatesState state incase it was enabled
+            if (previousAllLiveUpdateState) toggleAllLiveUpdates();
             // Notify Block Reward Data upon success
             toast.success(`Block: #${block} ~ Reward: ${blockRewardData} ETH ~ Value: $${fixedNoRound2(priceData.price * blockRewardData)}`)
             setSelectedBlockRewardData({ block, blockRewardData });
