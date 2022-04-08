@@ -41,14 +41,8 @@ const App = () => {
     const toggleAllLiveUpdates = async () => {
         setToggleAllLiveUpdatesState(prev => {
             enableAllLiveUpdates.current = !prev;
-            setToggleLiveDashboardUpdatesState(prev => {
-                isDashboardUpdateLive.current = !prev;
-                return !prev
-            });
-            setToggleLiveBlockUpdatesState(prev => {
-                isBlockNotificationLive.current = !prev;
-                return !prev
-            });
+            setToggleLiveDashboardUpdatesState(!prev);
+            setToggleLiveBlockUpdatesState(!prev);
             return !prev
         });
     };
