@@ -100,4 +100,5 @@ limited to querying one block reward at a time and the block chosen has been res
     * Configurations to endpoint can be made in ./src/backend/staticVariables.js
 
 ## Deployment
-- Optionally this application can be served locally by installing the Serve package globally and running `serve ./build`
+- Optionally this application can be served locally by installing the Serve package globally and running\
+`serve ./build`
