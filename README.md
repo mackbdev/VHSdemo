@@ -53,7 +53,7 @@ This project was created with [Create React App](https://github.com/facebook/cre
 
 ## Available Scripts
 
-In the project directory after installing all dependencies using `npm i`, you can run:
+In the project directory after installing all dependencies using ` npm i `, you can run:
 
 ### `npm start`
 
@@ -66,7 +66,7 @@ You may also see any lint errors in the console.
 ### `npm test in the /jtest folder`
 
 Launches a jest test for the core functions used to gather data in the React app.
-Must run npm i to install the jest package in this directory.
+Must run ` npm i ` to install the jest package in this directory.
 I do not have much experience testing React Apps, I left a basic App.test.js file in the /src folder test.
 
 ### `npm run build`
