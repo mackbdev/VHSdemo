@@ -1,4 +1,4 @@
-import React from 'react';
+import DivContainer from '../../Containers/DivContainer'
 import LoginButton from '../../Buttons/LoginButton'
 import MyBlocksButton from '../../Buttons/MyBlocksButton'
 import HomeButton from '../../Buttons/HomeButton'
@@ -10,20 +10,20 @@ const Nav = ({ props }) => {
     const { isUserLoggedIn } = { ...props }
 
     return (
-        <div className="navcontain">
+        <DivContainer containerClass={{class:'navcontain'}}>
             <div className="nav">
-                <div className="leftcontain">
+                <DivContainer containerClass={{class:'leftcontain'}}>
                     <Logo />
-                </div>
-                <div className="rightnavcontain">
+                </DivContainer>
+                <DivContainer containerClass={{class:'rightnavcontain'}}>
                     <HomeButton props={props} />
 
                     <LoginButton props={props} />
                     {isUserLoggedIn && <MyBlocksButton props={props} />}
 
-                </div>
+                </DivContainer>
             </div>
-        </div>
+        </DivContainer>
     )
 };
 
