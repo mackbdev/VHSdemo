@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import DivContainer from '../../Containers/DivContainer'
+import TitleHeading from '../TitleHeading'
 
 const BlockPill = ({ props, animations }) => {
     const { parentProps, data } = { ...props };
@@ -13,14 +14,14 @@ const BlockPill = ({ props, animations }) => {
         <AnimatePresence>
             <motion.div {...animations} onClick={() => txViewSelect(block)} className="pillcontain">
                 <DivContainer containerClass={{ class: 'blockleftcontain' }}>
-                    <h4 className="txtitleheading-copy">Block #{block}</h4>
+                    <TitleHeading props={{ headerSize: 4, title: `Block #${block}` }} titleClass={{ class: 'pilltitleheading' }} />
                 </DivContainer>
                 <DivContainer containerClass={{ class: 'blockrightcontain' }}>
-                    <h6 className="miniblocktitleheading">Time: {blockTime}</h6>
-                    <h6 className="miniblocktitleheading">Total TX: {blockTxsLength}</h6>
-                    <h6 className="miniblocktitleheading">Total TX (Only ETH): {blockTxSendingEthLength}</h6>
-                    <h6 className="miniblocktitleheading">Total ETH Sent: {blockTotalEthSent} (~${blockTotalEthSentUSD})</h6>
-                    <h6 className="miniblocktitleheading">Total Gas Burned: {gasBurned}</h6>
+                    <TitleHeading props={{ headerSize: 6, title: `Time: ${blockTime}` }} titleClass={{ class: 'miniblocktitleheading' }} />
+                    <TitleHeading props={{ headerSize: 6, title: `Total TX: ${blockTxsLength}` }} titleClass={{ class: 'miniblocktitleheading' }} />
+                    <TitleHeading props={{ headerSize: 6, title: `Total TX (Only ETH): ${blockTxSendingEthLength}` }} titleClass={{ class: 'miniblocktitleheading' }} />
+                    <TitleHeading props={{ headerSize: 6, title: `Total ETH Sent: ${blockTotalEthSent} (~$${blockTotalEthSentUSD})` }} titleClass={{ class: 'miniblocktitleheading' }} />
+                    <TitleHeading props={{ headerSize: 6, title: `Total Gas Burned: ${gasBurned}` }} titleClass={{ class: 'miniblocktitleheading' }} />
                 </DivContainer>
             </motion.div>
         </AnimatePresence>

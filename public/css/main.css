@@ -100,7 +100,7 @@
   text-decoration: none;
 }
 
-.txtitleheading-copy {
+.pilltitleheading {
   margin-top: 0px;
   margin-bottom: 0px;
   font-size: 12px;
@@ -294,7 +294,7 @@
     font-size: 1em;
   }
 
-  .txtitleheading-copy {
+  .pilltitleheading {
     font-size: 10px;
   }
 

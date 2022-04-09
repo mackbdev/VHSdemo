@@ -23,35 +23,35 @@ const InfoBox = ({ props }) => {
     return (
         <DivContainer containerClass={{ class: 'infocontain' }}>
             <DivContainer containerClass={{ class: 'minititlecontain' }}>
-                <h6 className="minititleheading">Latest 10 Blocks</h6>
+                <TitleHeading props={{ headerSize: 6, title: 'Latest 10 Blocks' }} titleClass={{ class: 'minititleheading' }} />
             </DivContainer>
             <DivContainer containerClass={{ class: 'infoblockscontain' }}>
                 <DivContainer containerClass={{ class: 'leftcontain' }}>
                     <DivContainer containerClass={{ class: 'topcontain' }}>
                         <DivContainer containerClass={{ class: 'titlecontain' }}>
-                            <TitleHeading props={{ title: 'ETH Price (USD)' }} />
+                            <TitleHeading props={{ headerSize: 4, title: 'ETH Price (USD)' }} titleClass={{ class: 'titleheading' }} />
                         </DivContainer>
-                        <h6 className="miniinfotitleheading">${priceString}</h6>
+                        <TitleHeading props={{ headerSize: 6, title: `${priceString}` }} titleClass={{ class: 'miniinfotitleheading' }} />
                     </DivContainer>
                     <DivContainer containerClass={{ class: 'bottomcontain' }}>
                         <DivContainer containerClass={{ class: 'titlecontain' }}>
-                            <TitleHeading props={{ title: 'Total ETH Sent' }} />
+                            <TitleHeading props={{ headerSize: 4, title: 'Total ETH Sent' }} titleClass={{ class: 'titleheading' }} />
                         </DivContainer>
-                        <h6 className="miniinfotitleheading">{totalValueOfTxSendingEth} (~${totalValueOfTxSendingEthUSD})</h6>
+                        <TitleHeading props={{ headerSize: 6, title: `${totalValueOfTxSendingEth} (~$${totalValueOfTxSendingEthUSD})` }} titleClass={{ class: 'miniinfotitleheading' }} />
                     </DivContainer>
                 </DivContainer>
                 <DivContainer containerClass={{ class: 'rightcontain' }}>
                     <DivContainer containerClass={{ class: 'topcontain' }}>
                         <DivContainer containerClass={{ class: 'titlecontain' }}>
-                            <TitleHeading props={{ title: 'Total Transactions' }} />
+                            <TitleHeading props={{ headerSize: 4, title: 'Total Transactions' }} titleClass={{ class: 'titleheading' }} />
                         </DivContainer>
-                        <h6 className="miniinfotitleheading">{totalTx}</h6>
+                        <TitleHeading props={{ headerSize: 6, title: `${totalTx}` }} titleClass={{ class: 'miniinfotitleheading' }} />
                     </DivContainer>
                     <DivContainer containerClass={{ class: 'bottomcontain' }}>
                         <DivContainer containerClass={{ class: 'titlecontain' }}>
-                            <TitleHeading props={{ title: 'Total Gas Burned' }} />
+                            <TitleHeading props={{ headerSize: 4, title: 'Total Gas Burned' }} titleClass={{ class: 'titleheading' }} />
                         </DivContainer>
-                        <h6 className="miniinfotitleheading">{totalGasBurned} (~${totalGasBurnedUSD})</h6>
+                        <TitleHeading props={{ headerSize: 6, title: `${totalGasBurned} (~$${totalGasBurnedUSD})` }} titleClass={{ class: 'miniinfotitleheading' }} />
                     </DivContainer>
                 </DivContainer>
             </DivContainer>

@@ -7,8 +7,8 @@ const LoginButton = ({ props }) => {
     return (
         <>
             {isUserLoggedIn ?
-                <button href="#" onClick={web3Logout} className="button">{userData.userVanity}</button> :
-                <button href="#" onClick={web3Login} className="button ">Connect</button>
+                <button onClick={web3Logout} className="button">{userData.userVanity}</button> :
+                <button onClick={web3Login} className="button ">Connect</button>
             }
         </>
     )

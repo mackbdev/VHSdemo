@@ -8,6 +8,7 @@ import DivContainer from './components/Containers/DivContainer'
 import Dashboard from './components/Core/Dashboard'
 import InfoBox from './components/Core/InfoBox'
 import Loadingbar from './components/Misc/LoadingBar';
+import TitleHeading from './components/Misc/TitleHeading';
 import { addresses, providers, staticData, evmChains, _infuraID, etherscanLinks } from './backend/staticVariables'
 import { getVanity, fixedNoRound2, getLiveDexPrice, getLatestBlock, getTxFee, initBlocks } from './backend/coreFunctions'
 import 'react-toastify/dist/ReactToastify.css';
@@ -340,7 +341,7 @@ const App = () => {
                     {/* mobile view placeholder */}
                     <DivContainer containerClass={{ class: 'mobiledisclaimercontain' }}>
                         <DivContainer containerClass={{ class: 'minititlecontain' }}>
-                            <h6 className="discalimertitleheading">Mobile Not Ready :)</h6>
+                            <TitleHeading props={{ headerSize: 6, title: `Mobile Not Ready :)` }} titleClass={{ class: 'discalimertitleheading' }} />
                         </DivContainer>
                     </DivContainer>
                 </DivContainer>
@@ -349,6 +350,7 @@ const App = () => {
             {/* container used to display toast notifications */}
             <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
         </DivContainer>
+
     );
 };
 

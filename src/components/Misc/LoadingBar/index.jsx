@@ -1,4 +1,5 @@
 import DivContainer from '../../Containers/DivContainer'
+import TitleHeading from '../../Misc/TitleHeading'
 
 const Loadingbar = ({ props }) => {
 
@@ -7,7 +8,7 @@ const Loadingbar = ({ props }) => {
     return (
 
         <DivContainer containerClass={{ class: 'loadingbarcontain' }}>
-            <h4 className="loadingtitleheading">{msg}</h4>
+            <TitleHeading props={{ headerSize: 4, title: `${msg}` }} titleClass={{ class: 'loadingtitleheading' }} />
             {showLoader && <div className="loadingbar"></div>}
         </DivContainer>
     );

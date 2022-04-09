@@ -1,7 +1,10 @@
-const TitleHeading = ({props}) => {
-    const { title } = {...props};
+const TitleHeading = ({props, titleClass, onClick}) => {
+
+    const { headerSize, title } = {...props};
+    const HeaderElement = `h${headerSize}`;
+
     return (
-        <h4 className="titleheading">{title}</h4>
+        <HeaderElement onClick={onClick} className={titleClass.class}>{title}</HeaderElement>
     );
 };
 

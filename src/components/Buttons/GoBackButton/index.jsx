@@ -1,4 +1,6 @@
 import DivContainer from '../../Containers/DivContainer'
+import TitleHeading from '../../Misc/TitleHeading'
+
 import '../index.css';
 
 const GoBackButton = ({ props }) => {
@@ -8,7 +10,7 @@ const GoBackButton = ({ props }) => {
     return (
         
         <DivContainer onClick={latestBlocksViewSelect} containerClass={{class:'closebuttoncontain'}}>
-            <h4 className="closebuttontitleheading">Go Back</h4>
+            <TitleHeading props={{ headerSize: 4, title: `Go Back` }} titleClass={{ class: 'closebuttontitleheading' }} />
         </DivContainer>
 
     );
