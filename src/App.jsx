@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Nav from './components/Core/Nav'
+import DivContainer from './components/Containers/DivContainer'
 import Dashboard from './components/Core/Dashboard'
 import InfoBox from './components/Core/InfoBox'
 import Loadingbar from './components/Misc/LoadingBar';
@@ -324,30 +325,30 @@ const App = () => {
 
     return (
 
-        <div className="appcontain">
+        <DivContainer containerClass={{ class: 'appcontain' }}>
             <Nav props={navProps} />
-            <div className="sectioncontain">
-                <div className="dashcontain">
+            <DivContainer containerClass={{ class: 'sectioncontain' }}>
+                <DivContainer containerClass={{ class: 'dashcontain' }}>
                     {/* load try again later page if data cannot be pulled successfully */}
                     {!didCoreDataFail && <InfoBox props={infoProps} />}
                     {!didCoreDataFail && <Dashboard props={props} />}
                     {didCoreDataFail &&
-                        <div className="loadingbarcontain">
+                        <DivContainer containerClass={{ class: 'loadingbarcontain' }}>
                             <Loadingbar props={{ msg: 'Core Data Failed to Load....Please Try Again!', showLoader: false }} />
-                        </div>
+                        </DivContainer>
                     }
                     {/* mobile view placeholder */}
-                    <div className="mobiledisclaimercontain">
-                        <div className="minititlecontain">
+                    <DivContainer containerClass={{ class: 'mobiledisclaimercontain' }}>
+                        <DivContainer containerClass={{ class: 'minititlecontain' }}>
                             <h6 className="discalimertitleheading">Mobile Not Ready :)</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="footercontain"></div>
+                        </DivContainer>
+                    </DivContainer>
+                </DivContainer>
+            </DivContainer>
+            <DivContainer containerClass={{ class: 'footercontain' }} />
             {/* container used to display toast notifications */}
             <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-        </div>
+        </DivContainer>
     );
 };
 

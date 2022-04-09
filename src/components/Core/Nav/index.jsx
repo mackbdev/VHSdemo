@@ -10,12 +10,12 @@ const Nav = ({ props }) => {
     const { isUserLoggedIn } = { ...props }
 
     return (
-        <DivContainer containerClass={{class:'navcontain'}}>
+        <DivContainer containerClass={{ class: 'navcontain' }}>
             <div className="nav">
-                <DivContainer containerClass={{class:'leftcontain'}}>
+                <DivContainer containerClass={{ class: 'leftcontain' }}>
                     <Logo />
                 </DivContainer>
-                <DivContainer containerClass={{class:'rightnavcontain'}}>
+                <DivContainer containerClass={{ class: 'rightnavcontain' }}>
                     <HomeButton props={props} />
 
                     <LoginButton props={props} />

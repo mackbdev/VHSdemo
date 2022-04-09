@@ -21,44 +21,44 @@ const InfoBox = ({ props }) => {
         { state: toggleLiveDashboardUpdatesState, toggleFunction: toggleLiveDashboardUpdates, title: 'Dash Updates' }
     ]
     return (
-            <DivContainer containerClass={{class:'infocontain'}}>
-                <DivContainer containerClass={{class:'minititlecontain'}}>
-                    <h6 className="minititleheading">Latest 10 Blocks</h6>
-                </DivContainer>
-                <DivContainer containerClass={{class:'infoblockscontain'}}>
-                    <DivContainer containerClass={{class:'leftcontain'}}>
-                        <DivContainer containerClass={{class:'topcontain'}}>
-                            <DivContainer containerClass={{class:'titlecontain'}}>
-                                <TitleHeading props={{ title: 'ETH Price (USD)' }} />
-                            </DivContainer>
-                            <h6 className="miniinfotitleheading">${priceString}</h6>
+        <DivContainer containerClass={{ class: 'infocontain' }}>
+            <DivContainer containerClass={{ class: 'minititlecontain' }}>
+                <h6 className="minititleheading">Latest 10 Blocks</h6>
+            </DivContainer>
+            <DivContainer containerClass={{ class: 'infoblockscontain' }}>
+                <DivContainer containerClass={{ class: 'leftcontain' }}>
+                    <DivContainer containerClass={{ class: 'topcontain' }}>
+                        <DivContainer containerClass={{ class: 'titlecontain' }}>
+                            <TitleHeading props={{ title: 'ETH Price (USD)' }} />
                         </DivContainer>
-                        <DivContainer containerClass={{class:'bottomcontain'}}>
-                            <DivContainer containerClass={{class:'titlecontain'}}>
-                                <TitleHeading props={{ title: 'Total ETH Sent' }} />
-                            </DivContainer>
-                            <h6 className="miniinfotitleheading">{totalValueOfTxSendingEth} (~${totalValueOfTxSendingEthUSD})</h6>
-                        </DivContainer>
+                        <h6 className="miniinfotitleheading">${priceString}</h6>
                     </DivContainer>
-                    <DivContainer containerClass={{class:'rightcontain'}}>
-                        <DivContainer containerClass={{class:'topcontain'}}>
-                            <DivContainer containerClass={{class:'titlecontain'}}>
-                                <TitleHeading props={{ title: 'Total Transactions' }} />
-                            </DivContainer>
-                            <h6 className="miniinfotitleheading">{totalTx}</h6>
+                    <DivContainer containerClass={{ class: 'bottomcontain' }}>
+                        <DivContainer containerClass={{ class: 'titlecontain' }}>
+                            <TitleHeading props={{ title: 'Total ETH Sent' }} />
                         </DivContainer>
-                        <DivContainer containerClass={{class:'bottomcontain'}}>
-                            <DivContainer containerClass={{class:'titlecontain'}}>
-                                <TitleHeading props={{ title: 'Total Gas Burned' }} />
-                            </DivContainer>
-                            <h6 className="miniinfotitleheading">{totalGasBurned} (~${totalGasBurnedUSD})</h6>
-                        </DivContainer>
+                        <h6 className="miniinfotitleheading">{totalValueOfTxSendingEth} (~${totalValueOfTxSendingEthUSD})</h6>
                     </DivContainer>
                 </DivContainer>
-                <DivContainer containerClass={{class:'togglebuttoncontain'}}>
-                    {toggleButtons.map((data) => <ToggleButton key={data.title} props={{ data }} />)}
+                <DivContainer containerClass={{ class: 'rightcontain' }}>
+                    <DivContainer containerClass={{ class: 'topcontain' }}>
+                        <DivContainer containerClass={{ class: 'titlecontain' }}>
+                            <TitleHeading props={{ title: 'Total Transactions' }} />
+                        </DivContainer>
+                        <h6 className="miniinfotitleheading">{totalTx}</h6>
+                    </DivContainer>
+                    <DivContainer containerClass={{ class: 'bottomcontain' }}>
+                        <DivContainer containerClass={{ class: 'titlecontain' }}>
+                            <TitleHeading props={{ title: 'Total Gas Burned' }} />
+                        </DivContainer>
+                        <h6 className="miniinfotitleheading">{totalGasBurned} (~${totalGasBurnedUSD})</h6>
+                    </DivContainer>
                 </DivContainer>
-            </DivContainer >
+            </DivContainer>
+            <DivContainer containerClass={{ class: 'togglebuttoncontain' }}>
+                {toggleButtons.map((data) => <ToggleButton key={data.title} props={{ data }} />)}
+            </DivContainer>
+        </DivContainer >
     );
 };
 

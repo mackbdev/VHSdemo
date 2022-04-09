@@ -4,8 +4,8 @@ import LatestBlocksView from '../../Views/LatestBlocksView'
 import TxView from '../../Views/TxView'
 
 // toggle between views
-const Dashboard = ({props}) => {
-    
+const Dashboard = ({ props }) => {
+
     const { view } = { ...props }
 
     // light in & out animation with framer for realtime block updates
@@ -14,19 +14,19 @@ const Dashboard = ({props}) => {
         style: {
             position: isPresent ? 'static' : 'absolute'
         },
-        initial: { scale: 0.8,  opacity: 0},
-        animate: { scale: 1 , opacity: 1},
+        initial: { scale: 0.8, opacity: 0 },
+        animate: { scale: 1, opacity: 1 },
         exit: { scale: 1, opacity: 0.8 },
-        transition: { ease: [0.42, 0, 0.58, 1], duration:0.8 }
+        transition: { ease: [0.42, 0, 0.58, 1], duration: 0.8 }
     }
     return (
         <>
             {view === "myBlocksView" && (
-                <MyBlocksView props={props} animations={animations}/>
+                <MyBlocksView props={props} animations={animations} />
             )}
 
             {view === "txView" && (
-                <TxView props={props} animations={animations}/>
+                <TxView props={props} animations={animations} />
             )}
 
             {view === "latestBlocksView" && (
