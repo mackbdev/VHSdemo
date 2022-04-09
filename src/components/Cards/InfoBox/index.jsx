@@ -9,9 +9,8 @@ const InfoBox = ({ props }) => {
     let totalTx = blocksData.totalTx || '.....';
     let totalValueOfTxSendingEth = blocksData.totalValueOfTxSendingEth || '....';
     let totalValueOfTxSendingEthUSD = (Number(totalValueOfTxSendingEth) * (price));
-    console.log({msg:'weird error with price 1000+ eth',totalValueOfTxSendingEth,totalValueOfTxSendingEthUSD,price},Number(totalValueOfTxSendingEth))
-    totalValueOfTxSendingEth = totalValueOfTxSendingEth.toLocaleString("en-US")
-    totalValueOfTxSendingEthUSD = totalValueOfTxSendingEthUSD.toLocaleString("en-US")
+    totalValueOfTxSendingEth = totalValueOfTxSendingEth.toLocaleString("en-US");
+    totalValueOfTxSendingEthUSD = totalValueOfTxSendingEthUSD.toLocaleString("en-US");
     let totalGasBurned = blocksData.totalGasBurned || '....';
     let totalGasBurnedUSD = (Number(totalGasBurned) * (price)).toLocaleString("en-US");
     let toggleButtons = [
