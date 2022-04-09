@@ -17,7 +17,7 @@ const InfoBox = ({ props }) => {
     let totalGasBurned = blocksData.totalGasBurned || '.....';
     let totalGasBurnedUSD = (Number(totalGasBurned) * (price)).toLocaleString("en-US");
     let toggleButtons = [
-        { state: toggleAllLiveUpdatesState, toggleFunction: toggleAllLiveUpdates, title: 'All Updates' },
+        { state: toggleAllLiveUpdatesState, toggleFunction: toggleAllLiveUpdates, title: 'Updates' },
         { state: toggleLiveNotifyUpdatesState, toggleFunction: toggleLiveNotifyUpdates, title: 'Notify Updates' },
         { state: toggleLiveDashboardUpdatesState, toggleFunction: toggleLiveDashboardUpdates, title: 'Dash Updates' }
     ]
