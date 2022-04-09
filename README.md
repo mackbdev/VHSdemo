@@ -10,7 +10,7 @@ This project was created with [Create React App](https://github.com/facebook/cre
 
 - Displays live price of ETH using the USDC pair reserve on uniswap.
 
-- From the 10 most recent blocks there is a total of all the transactions present and their value in addition the total gas burned for the 10 blocks. The displayed amount is multiplied against the price of eth pulled for an estimated USD value.
+- From the 10 most recent blocks there is a total of all the transactions present, their total value, and the total gas burned for the 10 blocks. The amount data is multiplied against the price of ETH for an estimated USD value.
 
 - Blocks are displayed with: 
     * Block Number
