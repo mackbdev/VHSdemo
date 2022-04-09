@@ -484,6 +484,7 @@
   font-weight: 400;
   text-align: center;
   text-decoration: underline;
+  width: 14em;
 }
 
 .miniblocktitleheading:hover {
