@@ -113,7 +113,7 @@ const App = () => {
         } else {
             setIsUserLoggedIn(false)
             setLoadingUserLogin(false)
-            toast.error('Wrong Network. Please swtich to ETH Mainnet.', { position: toast.POSITION.TOP_CENTER })
+            toast.error('Wrong Network. Please swtich to ETH Mainnet!', { position: toast.POSITION.TOP_CENTER })
             return
         }
     }
@@ -142,7 +142,6 @@ const App = () => {
 
         if (blockSelected === false) return latestBlocksViewSelect()
 
-
         let blockSelectedData;
         if (view === 'myBlocksView') {
             blockSelectedData = localStorage.getItem(userData.userID) || false;
@@ -162,7 +161,6 @@ const App = () => {
 
                 // check if user already viewed block
                 if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
-
 
             } else {
                 try {

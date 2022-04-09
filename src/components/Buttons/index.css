@@ -1,0 +1,89 @@
+.button {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 9em;
+    margin-right: 10px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 20px;
+    background-color: #cc97d3;
+    background-image: linear-gradient(107deg, #e6acee, #87bcd3 84%);
+    box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transition: all 210ms ease;
+    transition: all 210ms ease;
+    color: #000;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+  
+.button:hover {
+    background-image: linear-gradient(107deg, #87bcd3, #e6acee 90%);
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+@media screen and (min-width: 1920px) {
+    .button {
+    width: 10em;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .button {
+      width: 8.5em;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .button {
+      font-size: 12px;
+    }
+}
+
+.closebuttoncontain {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 90%;
+    height: 6%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.closebuttontitleheading {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+}

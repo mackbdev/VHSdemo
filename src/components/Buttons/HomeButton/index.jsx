@@ -1,3 +1,4 @@
+import '../index.css';
 const HomeButton = ({ props }) => {
     const { setView } = { ...props }
     return (
