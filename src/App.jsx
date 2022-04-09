@@ -28,36 +28,63 @@ const App = () => {
 
     // live update settings, use refs to persist data between renders
     const currentProvider = useRef(false);
+    const isProviderListening = useRef(false);
     const isBlockNotificationLive = useRef(true);
     const isDashboardUpdateLive = useRef(true);
     const enableAllLiveUpdates = useRef(true);
 
     // added state to rerender the buttons
     const [toggleAllLiveUpdatesState, setToggleAllLiveUpdatesState] = useState(true);
-    const [toggleLiveBlockUpdatesState, setToggleLiveBlockUpdatesState] = useState(true);
+    const [toggleLiveNotifyUpdatesState, setToggleLiveNotifyUpdatesState] = useState(true);
     const [toggleLiveDashboardUpdatesState, setToggleLiveDashboardUpdatesState] = useState(true);
 
     // toggle updates - enable or disable all forms of update
     const toggleAllLiveUpdates = async () => {
         setToggleAllLiveUpdatesState(prev => {
             enableAllLiveUpdates.current = !prev;
+            isDashboardUpdateLive.current = !prev;
+            isBlockNotificationLive.current = !prev;
             setToggleLiveDashboardUpdatesState(!prev);
-            setToggleLiveBlockUpdatesState(!prev);
+            setToggleLiveNotifyUpdatesState(!prev);
+
             return !prev
         });
     };
     // enable or disable rerendering of the dashboard for new blocks
     const toggleLiveDashboardUpdates = async () => {
         setToggleLiveDashboardUpdatesState(prev => {
-            isDashboardUpdateLive.current = !prev;
-            return !prev
+            let newState = !prev;
+            isDashboardUpdateLive.current = newState;
+            // enable all live updates again if it was disabled
+            if (newState) {
+                enableAllLiveUpdates.current = newState;
+                setToggleAllLiveUpdatesState(newState)
+            }
+            // disable all live updates if live notify updates was disabled
+            if (newState === isBlockNotificationLive.current) {
+                enableAllLiveUpdates.current = newState;
+                setToggleAllLiveUpdatesState(newState)
+            }
+            return newState
         });
     };
     // enable or disable nofitications of the latest block
-    const toggleLiveBlockUpdates = async () => {
-        setToggleLiveBlockUpdatesState(prev => {
-            isBlockNotificationLive.current = !prev;
-            return !prev
+    const toggleLiveNotifyUpdates = async () => {
+        setToggleLiveNotifyUpdatesState(prev => {
+            let newState = !prev;
+            isBlockNotificationLive.current = newState;
+            // enable all live updates again if it was disabled
+            if (newState) {
+                enableAllLiveUpdates.current = newState;
+                setToggleAllLiveUpdatesState(newState)
+            }
+            // disable all live updates if live dashboard updates was disabled
+            if (newState === isDashboardUpdateLive.current) {
+                enableAllLiveUpdates.current = newState;
+                setToggleAllLiveUpdatesState(newState)
+            }
+
+            return newState
         });
     };
 
@@ -155,7 +182,7 @@ const App = () => {
         // handle caching of blocks viewed by a given user
         if (isUserLoggedIn && view !== 'myBlocksView') {
             let userViewCache = localStorage.getItem(userData.userID) || false;
-            console.log({msg:'store block viewed',userViewCache})
+            console.log({ msg: 'store block viewed', userViewCache })
             if (userViewCache !== false) {
                 userViewCache = JSON.parse(userViewCache)
 
@@ -168,7 +195,7 @@ const App = () => {
                 } catch (err) {
                     toast.error('LocalStorage Error, Out of space!', { position: toast.POSITION.TOP_RIGHT })
                 }
-                
+
             }
         }
 
@@ -198,10 +225,10 @@ const App = () => {
             if (enableAllLiveUpdates.current) toggleAllLiveUpdates();
             let counter = 0
             for await (let tx of blockTxs) {
-                let txFee = await getTxFee(providers.ethWSS, tx.hash)
-                blockGasPaid += txFee
+                let txFee = await getTxFee(providers.ethWSS, tx.hash);
+                blockGasPaid += txFee;
                 counter++
-                console.log({ progress: `${counter}/${blockTxsLength}` })
+                console.log({ msg: 'Loading block reward...', progress: `${counter}/${blockTxsLength}` })
             }
             let blockRewardData = fixedNoRound2(staticData.blockReward + blockGasPaid - blockGasBurned);
             // restore user toggleAllLiveUpdatesState state incase it was enabled
@@ -244,6 +271,7 @@ const App = () => {
             web3Login()
         }
     }, [])
+
     // listen for window ethereum updates
     useEffect(() => {
         window.ethereum.removeListener("accountsChanged", () => { })
@@ -258,12 +286,13 @@ const App = () => {
         });
 
     }, [userData])
+
     // live update for blocks
     useEffect(() => {
         if (currentProvider.current === false) {
             try {
                 let publicProvider = new ethers.providers.WebSocketProvider(providers.ethWSS);
-                currentProvider.current = publicProvider
+                currentProvider.current = publicProvider;
             } catch (err) {
                 err = { msg: 'Websocket failed connection with provider!', err }
                 toast.error(err.msg)
@@ -274,24 +303,28 @@ const App = () => {
 
         // disable live updates
         if ((!isBlockNotificationLive.current && !isDashboardUpdateLive.current) || !enableAllLiveUpdates.current) {
+            currentProvider.current.removeAllListeners('block')
+            isProviderListening.current = false;
             //console.log('disable listeners check', currentProvider.current.removeAllListeners('block'))
             return
         }
         //console.log('before listner starts count', currentProvider.current.listeners())
+        if (isProviderListening.current) return
         currentProvider.current.on('block', (block) => {
             if (isBlockNotificationLive.current) toast(`Latest Block: #${block}`, { position: toast.POSITION.TOP_RIGHT })
             if (isDashboardUpdateLive.current) getAppData(providers.ethWSS, staticData.latestCount)
+            isProviderListening.current = true;
             console.log({ msg: 'latest', block })
         });
         //console.log('after listener starts count', currentProvider.current.listeners())
-    }, [toggleLiveBlockUpdatesState, toggleLiveDashboardUpdatesState, toggleAllLiveUpdatesState])
+    }, [toggleLiveNotifyUpdatesState, toggleLiveDashboardUpdatesState, toggleAllLiveUpdatesState])
 
 
-    const props = { userViewHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleAllLiveUpdates, toggleAllLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveBlockUpdates, toggleLiveBlockUpdatesState, ethers };
+    const props = { userViewHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleAllLiveUpdates, toggleAllLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers };
 
     const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userData, myBlocksViewSelect, setView };
 
-    const infoProps = { priceData, blocksData, toggleAllLiveUpdates, toggleAllLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveBlockUpdates, toggleLiveBlockUpdatesState };
+    const infoProps = { priceData, blocksData, toggleAllLiveUpdates, toggleAllLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 
     return (
 
