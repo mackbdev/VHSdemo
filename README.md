@@ -93,9 +93,9 @@ Your app is ready to be deployed!
 
 - Connection to websocket can fail due to rate limiting , ideally it would be best to have multiple websocket sources for load balancing or a paid provider :)
 
-- Issue calculating total eth sent of latest 10 block in USD, didn't notice it as much, happens when the total eth sent for the past 10 blocks is more than 1000 eth. Need to spend more time troubleshooting.
+- Issue calculating total ETH sent of latest 10 block in USD, didn't notice it as much, happens when the total eth sent for the past 10 blocks is more than 1000 ETH. Need to spend more time troubleshooting.
 
-- Transactions in the blocks are stored locally so the information like confirmations is not accurate/realtime during display.
+- Transactions in the blocks are stored locally so the information such as confirmations are not accurate/realtime during display.
 
 - When a block reward is queried (bonus feature) all live updates are temporarily disabled.\
 limited to querying one block reward at a time and the block chosen has been restricted to 100tx minimum.
