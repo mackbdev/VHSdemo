@@ -317,7 +317,6 @@ const App = () => {
         //console.log('after listener starts count', currentProvider.current.listeners())
     }, [toggleLiveNotifyUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveUpdatesState])
 
-
     const props = { userViewHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers };
 
     const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userData, myBlocksViewSelect, setView };

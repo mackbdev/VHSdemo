@@ -1,3 +1,5 @@
+import './index.css'
+
 const TitleHeading = ({props, titleClass, onClick}) => {
 
     const { headerSize, title } = {...props};

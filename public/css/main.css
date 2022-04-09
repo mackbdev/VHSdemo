@@ -51,71 +51,6 @@
   text-decoration: none;
 }
 
-.titleheading {
-  margin-top: 0px;
-  margin-bottom: 2.5px;
-  text-align: center;
-  text-decoration: underline;
-}
-
-.minititleheading {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  color: #868686;
-  font-size: 14px;
-  font-weight: 400;
-  text-decoration: underline;
-}
-
-.blocktitleheading {
-  margin-top: 0px;
-  margin-bottom: 5px;
-  font-size: 12px;
-  text-align: center;
-}
-
-.miniblocktitleheading {
-  overflow: visible;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  color: #868686;
-  font-size: 11px;
-  font-weight: 400;
-  text-align: center;
-  text-decoration: underline;
-  width: 14em;
-}
-
-.miniblocktitleheading:hover {
-  color: #881297;
-}
-
-.miniinfotitleheading {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  color: #868686;
-  font-size: 1.2em;
-  font-weight: 400;
-  text-align: center;
-  text-decoration: none;
-}
-
-.pilltitleheading {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-size: 12px;
-  text-align: center;
-}
-
-.discalimertitleheading {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  color: #868686;
-  font-size: 14px;
-  font-weight: 400;
-  text-decoration: underline;
-}
-
 .deletex {
   position: static;
   top: 133px;
@@ -182,23 +117,6 @@
   transform-origin: 50% 50%;
 }
 
-.blockrewardtitleheading {
-  margin-top: 0px;
-  margin-bottom: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
-  -webkit-transition: all 300ms ease;
-  transition: all 300ms ease;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.blockrewardtitleheading:hover {
-  color: #277ea3;
-  text-shadow: 1px 1px 15px rgba(188, 5, 213, 0.48);
-}
-
 .loadingbar {
   width: 40em;
   height: 1em;
@@ -221,14 +139,6 @@
   }
 }
 
-.loadingtitleheading {
-  margin-top: 0px;
-  margin-bottom: 20px;
-  font-size: 20px;
-  font-weight: 300;
-  text-align: center;
-}
-
 @media screen and (min-width: 1920px) {
   .nav {
     width: 60%;
@@ -240,31 +150,6 @@
 }
 
 @media screen and (max-width: 991px) {
-  .titleheading {
-    font-size: 14px;
-  }
-
-  .minititleheading {
-    font-size: 14px;
-  }
-
-  .blocktitleheading {
-    font-size: 12px;
-    line-height: 20px;
-  }
-
-  .miniblocktitleheading {
-    font-size: 10px;
-  }
-
-  .miniinfotitleheading {
-    font-size: 1.1em;
-  }
-
-  .discalimertitleheading {
-    font-size: 12px;
-  }
-
   .deletex {
     width: 100%;
     padding-right: 10px;
@@ -274,30 +159,9 @@
   .togglebutton {
     width: 12em;
   }
-
-  .blockrewardtitleheading {
-    font-size: 12px;
-    line-height: 20px;
-  }
-
-  .loadingtitleheading {
-    font-size: 14px;
-  }
 }
 
 @media screen and (max-width: 767px) {
-  .titleheading {
-    font-size: 12px;
-  }
-
-  .miniinfotitleheading {
-    font-size: 1em;
-  }
-
-  .pilltitleheading {
-    font-size: 10px;
-  }
-
   .togglebutton {
     width: 13em;
     font-size: 10px;
@@ -306,38 +170,14 @@
   .loadingbar {
     width: 30em;
   }
-
-  .loadingtitleheading {
-    font-size: 12px;
-  }
 }
 
 @media screen and (max-width: 479px) {
-  .titleheading {
-    width: 100%;
-    font-size: 10px;
-    text-align: center;
-  }
-
-  .miniinfotitleheading {
-    font-size: 0.8em;
-  }
-
-  .discalimertitleheading {
-    font-size: 16px;
-    text-decoration: none;
-  }
-
   .deletex {
     display: none;
   }
-
-  .loadingtitleheading {
-    width: 100%;
-    font-size: 10px;
-    text-align: center;
-  }
 }
+
 
 /* ==========================================================================
    normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css 
