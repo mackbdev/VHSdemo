@@ -5,7 +5,7 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Nav from './components/Core/Nav'
 import Dashboard from './components/Core/Dashboard'
-import InfoBox from './components/Cards/InfoBox'
+import InfoBox from './components/Core/InfoBox'
 import Loadingbar from './components/Misc/LoadingBar';
 import { addresses, providers, staticData, evmChains, _infuraID, etherscanLinks } from './backend/staticVariables'
 import { getVanity, fixedNoRound2, getLiveDexPrice, getLatestBlock, getTxFee, initBlocks } from './backend/coreFunctions'

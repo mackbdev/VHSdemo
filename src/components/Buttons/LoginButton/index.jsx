@@ -1,6 +1,9 @@
 import '../index.css';
+
 const LoginButton = ({ props }) => {
+
     const { web3Login, web3Logout, isUserLoggedIn, userData } = { ...props }
+
     return (
         <>
             {isUserLoggedIn ?

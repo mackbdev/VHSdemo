@@ -1,6 +1,8 @@
-import '../index.css';
+import DivContainer from '../../Containers/DivContainer'
 import TitleHeading from '../../Misc/TitleHeading'
 import ToggleButton from '../../Buttons/ToggleButton'
+import './index.css';
+
 const InfoBox = ({ props }) => {
 
     const { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState } = { ...props };
@@ -19,46 +21,44 @@ const InfoBox = ({ props }) => {
         { state: toggleLiveDashboardUpdatesState, toggleFunction: toggleLiveDashboardUpdates, title: 'Dash Updates' }
     ]
     return (
-        <>
-            <div className="infocontain">
-                <div className="minititlecontain">
+            <DivContainer containerClass={{class:'infocontain'}}>
+                <DivContainer containerClass={{class:'minititlecontain'}}>
                     <h6 className="minititleheading">Latest 10 Blocks</h6>
-                </div>
-                <div className="infoblockscontain">
-                    <div className="leftcontain">
-                        <div className="topcontain">
-                            <div className="titlecontain">
+                </DivContainer>
+                <DivContainer containerClass={{class:'infoblockscontain'}}>
+                    <DivContainer containerClass={{class:'leftcontain'}}>
+                        <DivContainer containerClass={{class:'topcontain'}}>
+                            <DivContainer containerClass={{class:'titlecontain'}}>
                                 <TitleHeading props={{ title: 'ETH Price (USD)' }} />
-                            </div>
+                            </DivContainer>
                             <h6 className="miniinfotitleheading">${priceString}</h6>
-                        </div>
-                        <div className="bottomcontain">
-                            <div className="titlecontain">
+                        </DivContainer>
+                        <DivContainer containerClass={{class:'bottomcontain'}}>
+                            <DivContainer containerClass={{class:'titlecontain'}}>
                                 <TitleHeading props={{ title: 'Total ETH Sent' }} />
-                            </div>
+                            </DivContainer>
                             <h6 className="miniinfotitleheading">{totalValueOfTxSendingEth} (~${totalValueOfTxSendingEthUSD})</h6>
-                        </div>
-                    </div>
-                    <div className="rightcontain">
-                        <div className="topcontain">
-                            <div className="titlecontain">
+                        </DivContainer>
+                    </DivContainer>
+                    <DivContainer containerClass={{class:'rightcontain'}}>
+                        <DivContainer containerClass={{class:'topcontain'}}>
+                            <DivContainer containerClass={{class:'titlecontain'}}>
                                 <TitleHeading props={{ title: 'Total Transactions' }} />
-                            </div>
+                            </DivContainer>
                             <h6 className="miniinfotitleheading">{totalTx}</h6>
-                        </div>
-                        <div className="bottomcontain">
-                            <div className="titlecontain">
+                        </DivContainer>
+                        <DivContainer containerClass={{class:'bottomcontain'}}>
+                            <DivContainer containerClass={{class:'titlecontain'}}>
                                 <TitleHeading props={{ title: 'Total Gas Burned' }} />
-                            </div>
+                            </DivContainer>
                             <h6 className="miniinfotitleheading">{totalGasBurned} (~${totalGasBurnedUSD})</h6>
-                        </div>
-                    </div>
-                </div>
-                <div className="togglebuttoncontain">
+                        </DivContainer>
+                    </DivContainer>
+                </DivContainer>
+                <DivContainer containerClass={{class:'togglebuttoncontain'}}>
                     {toggleButtons.map((data) => <ToggleButton key={data.title} props={{ data }} />)}
-                </div>
-            </div>
-        </>
+                </DivContainer>
+            </DivContainer >
     );
 };
 

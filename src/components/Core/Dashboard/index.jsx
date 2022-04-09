@@ -1,4 +1,4 @@
-import React, {} from 'react';
+import React from 'react';
 import { useIsPresent } from 'framer-motion'
 import MyBlocksView from '../../Views/MyBlocksView'
 import LatestBlocksView from '../../Views/LatestBlocksView'
