@@ -63,11 +63,19 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
+### `npm test`
+
+I do not have much experience testing React Apps.
+
+List of Components Tested:
+    - ToggleButton
+
+
 ### `npm test in the /jtest folder`
 
 Launches a jest test for the core functions used to gather data in the React app.
 Must run ` npm i ` to install the jest package in this directory.
-I do not have much experience testing React Apps, I left a basic App.test.js file in the /src folder test.
+
 
 ### `npm run build`
 
