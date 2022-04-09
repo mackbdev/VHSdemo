@@ -67,8 +67,8 @@ You may also see any lint errors in the console.
 
 I do not have much experience testing React Apps.
 
-List of Components Tested:
-    - ToggleButton
+List of Components Tested:\
+- ToggleButton
 
 
 ### `npm test in the /jtest folder`
