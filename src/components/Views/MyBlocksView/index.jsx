@@ -1,5 +1,5 @@
-import BlockPill from '../Misc/BlockPill'
-import LoadingBar from '../Misc/LoadingBar'
+import BlockPill from '../../Misc/BlockPill'
+import LoadingBar from '../../Misc/LoadingBar'
 
 const MyBlocksView = ({ props, animations}) => {
     let { userViewHistory } = { ...props }

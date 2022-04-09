@@ -1,8 +1,8 @@
 import React from 'react';
-import Logo from '../Misc/Logo'
-import LoginButton from '../Buttons/LoginButton'
-import MyBlocksButton from '../Buttons/MyBlocksButton'
-import HomeButton from '../Buttons/HomeButton'
+import Logo from '../../Misc/Logo'
+import LoginButton from '../../Buttons/LoginButton'
+import MyBlocksButton from '../../Buttons/MyBlocksButton'
+import HomeButton from '../../Buttons/HomeButton'
 
 // toggle between views
 const Nav = ({ props }) => {

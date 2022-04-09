@@ -1,6 +1,6 @@
 
-import BlockPill from '../Misc/BlockPill'
-import LoadingBar from '../Misc/LoadingBar'
+import BlockPill from '../../Misc/BlockPill'
+import LoadingBar from '../../Misc/LoadingBar'
 
 const LatestBlocksView = ({ props, animations }) => {
     const { loadingDashboardData, blocksData } = { ...props };

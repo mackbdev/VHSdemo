@@ -1,5 +1,3 @@
-
-
 const Loadingbar = ({ props }) => {
 let {msg,showLoader} = {...props}
 

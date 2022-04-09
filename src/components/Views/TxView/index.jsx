@@ -1,6 +1,6 @@
-import TxsPill from '../Misc/TxsPill'
-import GoBackButton from '../Buttons/GoBackButton'
-import LoadingBar from '../Misc/LoadingBar'
+import TxsPill from '../../Misc/TxsPill'
+import GoBackButton from '../../Buttons/GoBackButton'
+import LoadingBar from '../../Misc/LoadingBar'
 import { AnimatePresence, motion } from 'framer-motion'
 const TxView = ({ props, animations }) => {
     const { loadingTxViewData, txViewBlockSelectedData, loadBlockRewardData, etherscanLinks } = { ...props };

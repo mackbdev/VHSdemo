@@ -1,4 +1,4 @@
-import TitleHeading from '../Misc/TitleHeading'
+import TitleHeading from '../../Misc/TitleHeading'
 const InfoPane = ({ props }) => {
     const { title, data } = { ...props };
     return (

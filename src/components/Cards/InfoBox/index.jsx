@@ -1,5 +1,5 @@
-import TitleHeading from '../Misc/TitleHeading'
-import ToggleButton from '../Buttons/ToggleButton'
+import TitleHeading from '../../Misc/TitleHeading'
+import ToggleButton from '../../Buttons/ToggleButton'
 const InfoBox = ({ props }) => {
 
     const { priceData, blocksData, toggleAllLiveUpdates, toggleAllLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveBlockUpdates, toggleLiveBlockUpdatesState } = { ...props };

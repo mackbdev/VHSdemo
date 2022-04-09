@@ -1,8 +1,8 @@
 import React, {} from 'react';
 import { useIsPresent } from 'framer-motion'
-import MyBlocksView from '../Views/MyBlocksView'
-import LatestBlocksView from '../Views/LatestBlocksView'
-import TxView from '../Views/TxView'
+import MyBlocksView from '../../Views/MyBlocksView'
+import LatestBlocksView from '../../Views/LatestBlocksView'
+import TxView from '../../Views/TxView'
 
 // toggle between views
 const Dashboard = ({props}) => {

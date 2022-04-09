@@ -1,4 +1,3 @@
-
 const GoBackButton = ({ props }) => {
     const { latestBlocksViewSelect } = { ...props };
     return (
