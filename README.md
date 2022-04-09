@@ -67,7 +67,7 @@ You may also see any lint errors in the console.
 
 I do not have much experience testing React Apps.
 
-List of Components Tested:\
+List of Components Tested:
 - ToggleButton
 
 
