@@ -8,7 +8,7 @@ This project was created with [Create React App](https://github.com/facebook/cre
 
 - Fully decentralized using any ethereum rpc websocket, the goal was to use no 3rd party APIs.
 
-- Displays live price of eth using the usdc pair on uniswap.
+- Displays live price of ETH using the USDC pair reserve on uniswap.
 
 - From the 10 most recent blocks there is a total of all the transactions present and their value in addition the total gas burned for the 10 blocks. The displayed amount is multiplied against the price of eth pulled for an estimated USD value.
 
