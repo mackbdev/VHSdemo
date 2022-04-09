@@ -1,3 +1,4 @@
+import '../index.css';
 const GoBackButton = ({ props }) => {
     const { latestBlocksViewSelect } = { ...props };
     return (

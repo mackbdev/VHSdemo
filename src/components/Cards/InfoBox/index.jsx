@@ -1,3 +1,4 @@
+import '../index.css';
 import TitleHeading from '../../Misc/TitleHeading'
 import ToggleButton from '../../Buttons/ToggleButton'
 const InfoBox = ({ props }) => {

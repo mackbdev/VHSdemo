@@ -1,0 +1,48 @@
+.infocontain {
+    position: static;
+    top: 133px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 65%;
+    height: 35em;
+    margin-bottom: 2em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+  }
+
+@media screen and (max-width: 479px) {
+    .infocontain {
+      height: 20em;
+    }
+}
+
+@media screen and (max-width: 991px) {
+
+    .infocontain {
+      width: 90%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .infocontain {
+      width: 100%;
+    }
+}
