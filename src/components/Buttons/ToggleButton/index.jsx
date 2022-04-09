@@ -5,8 +5,8 @@ const ToggleButton = ({ props }) => {
     return (
         <span data-testid="toggle-button">
             {state ?
-                <a href="#" onClick={toggleFunction} className="togglebutton w-button">{title} ON</a> :
-                <a href="#" onClick={toggleFunction} className="togglebutton w-button"><strike>{title} OFF</strike></a>
+                <button href="#" onClick={toggleFunction} className="togglebutton w-button">{title} ON</button> :
+                <button href="#" onClick={toggleFunction} className="togglebutton w-button"><strike>{title} OFF</strike></button>
             }
         </span>
     )

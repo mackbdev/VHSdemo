@@ -3,7 +3,7 @@ const HomeButton = ({ props }) => {
     const { setView } = { ...props }
     return (
 
-        <a href="#" onClick={() => setView('latestBlocksView')} className="button">Home</a>
+        <button href="#" onClick={() => setView('latestBlocksView')} className="button">Home</button>
 
     )
 };

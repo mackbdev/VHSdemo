@@ -3,7 +3,7 @@ const MyBlocksButton = ({ props }) => {
     const { userData, myBlocksViewSelect } = { ...props };
     return (
         <>
-            <a href='#' onClick={() => myBlocksViewSelect(userData.userID)} className="button">My Blocks</a>
+            <button href='#' onClick={() => myBlocksViewSelect(userData.userID)} className="button">My Blocks</button>
         </>
     )
 };
