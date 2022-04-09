@@ -3,7 +3,7 @@ import TitleHeading from '../../Misc/TitleHeading'
 import ToggleButton from '../../Buttons/ToggleButton'
 const InfoBox = ({ props }) => {
 
-    const { priceData, blocksData, toggleAllLiveUpdates, toggleAllLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState } = { ...props };
+    const { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState } = { ...props };
     let price = priceData.price;
     let priceString = priceData.priceString || '.....';
     let totalTx = blocksData.totalTx || '.....';
@@ -17,7 +17,7 @@ const InfoBox = ({ props }) => {
     let totalGasBurned = blocksData.totalGasBurned || '.....';
     let totalGasBurnedUSD = (Number(totalGasBurned) * (price)).toLocaleString("en-US");
     let toggleButtons = [
-        { state: toggleAllLiveUpdatesState, toggleFunction: toggleAllLiveUpdates, title: 'Updates' },
+        { state: toggleLiveUpdatesState, toggleFunction: toggleLiveUpdates, title: 'Updates' },
         { state: toggleLiveNotifyUpdatesState, toggleFunction: toggleLiveNotifyUpdates, title: 'Notify Updates' },
         { state: toggleLiveDashboardUpdatesState, toggleFunction: toggleLiveDashboardUpdates, title: 'Dash Updates' }
     ]

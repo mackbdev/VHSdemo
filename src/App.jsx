@@ -31,22 +31,27 @@ const App = () => {
     const isProviderListening = useRef(false);
     const isBlockNotificationLive = useRef(true);
     const isDashboardUpdateLive = useRef(true);
-    const enableAllLiveUpdates = useRef(true);
+    const enableLiveUpdates = useRef(true);
 
     // added state to rerender the buttons
-    const [toggleAllLiveUpdatesState, setToggleAllLiveUpdatesState] = useState(true);
+    const [toggleLiveUpdatesState, setToggleLiveUpdatesState] = useState(true);
     const [toggleLiveNotifyUpdatesState, setToggleLiveNotifyUpdatesState] = useState(true);
     const [toggleLiveDashboardUpdatesState, setToggleLiveDashboardUpdatesState] = useState(true);
 
+
+    // live update state handler
+    const liveUpdateStateHandler = (newState) => {
+        enableLiveUpdates.current = newState;
+        setToggleLiveUpdatesState(newState)
+    }
     // toggle updates - enable or disable all forms of update
-    const toggleAllLiveUpdates = async () => {
-        setToggleAllLiveUpdatesState(prev => {
-            enableAllLiveUpdates.current = !prev;
+    const toggleLiveUpdates = async () => {
+        setToggleLiveUpdatesState(prev => {
+            enableLiveUpdates.current = !prev;
             isDashboardUpdateLive.current = !prev;
             isBlockNotificationLive.current = !prev;
             setToggleLiveDashboardUpdatesState(!prev);
             setToggleLiveNotifyUpdatesState(!prev);
-
             return !prev
         });
     };
@@ -56,14 +61,10 @@ const App = () => {
             let newState = !prev;
             isDashboardUpdateLive.current = newState;
             // enable all live updates again if it was disabled
-            if (newState) {
-                enableAllLiveUpdates.current = newState;
-                setToggleAllLiveUpdatesState(newState)
-            }
+            if (newState) liveUpdateStateHandler(newState)
             // disable all live updates if live notify updates was disabled
             if (newState === isBlockNotificationLive.current) {
-                enableAllLiveUpdates.current = newState;
-                setToggleAllLiveUpdatesState(newState)
+                liveUpdateStateHandler(newState)
             }
             return newState
         });
@@ -74,16 +75,11 @@ const App = () => {
             let newState = !prev;
             isBlockNotificationLive.current = newState;
             // enable all live updates again if it was disabled
-            if (newState) {
-                enableAllLiveUpdates.current = newState;
-                setToggleAllLiveUpdatesState(newState)
-            }
+            if (newState) liveUpdateStateHandler(newState)
             // disable all live updates if live dashboard updates was disabled
             if (newState === isDashboardUpdateLive.current) {
-                enableAllLiveUpdates.current = newState;
-                setToggleAllLiveUpdatesState(newState)
+                liveUpdateStateHandler(newState)
             }
-
             return newState
         });
     };
@@ -219,10 +215,10 @@ const App = () => {
         let blockGasBurned = blockSelected.gasBurned;
 
         const rewardPromise = new Promise(async (resolve, reject) => {
-            let previousAllLiveUpdateState = enableAllLiveUpdates.current;
+            let previousLiveUpdatestate = enableLiveUpdates.current;
 
             // disable all live updates due to rate limiting that may occur when collecting total tx fees from a given block
-            if (enableAllLiveUpdates.current) toggleAllLiveUpdates();
+            if (enableLiveUpdates.current) toggleLiveUpdates();
             let counter = 0
             for await (let tx of blockTxs) {
                 let txFee = await getTxFee(providers.ethWSS, tx.hash);
@@ -231,8 +227,8 @@ const App = () => {
                 console.log({ msg: 'Loading block reward...', progress: `${counter}/${blockTxsLength}` })
             }
             let blockRewardData = fixedNoRound2(staticData.blockReward + blockGasPaid - blockGasBurned);
-            // restore user toggleAllLiveUpdatesState state incase it was enabled
-            if (previousAllLiveUpdateState) toggleAllLiveUpdates();
+            // restore user toggleLiveUpdatesState state incase it was enabled
+            if (previousLiveUpdatestate) toggleLiveUpdates();
             // Notify Block Reward Data upon success
             toast.success(`Block: #${block} ~ Reward: ${blockRewardData} ETH ~ Value: $${fixedNoRound2(priceData.price * blockRewardData)}`)
             setSelectedBlockRewardData({ block, blockRewardData });
@@ -302,7 +298,7 @@ const App = () => {
         }
 
         // disable live updates
-        if ((!isBlockNotificationLive.current && !isDashboardUpdateLive.current) || !enableAllLiveUpdates.current) {
+        if ((!isBlockNotificationLive.current && !isDashboardUpdateLive.current) || !enableLiveUpdates.current) {
             currentProvider.current.removeAllListeners('block')
             isProviderListening.current = false;
             //console.log('disable listeners check', currentProvider.current.removeAllListeners('block'))
@@ -317,14 +313,14 @@ const App = () => {
             console.log({ msg: 'latest', block })
         });
         //console.log('after listener starts count', currentProvider.current.listeners())
-    }, [toggleLiveNotifyUpdatesState, toggleLiveDashboardUpdatesState, toggleAllLiveUpdatesState])
+    }, [toggleLiveNotifyUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveUpdatesState])
 
 
-    const props = { userViewHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleAllLiveUpdates, toggleAllLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers };
+    const props = { userViewHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers };
 
     const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userData, myBlocksViewSelect, setView };
 
-    const infoProps = { priceData, blocksData, toggleAllLiveUpdates, toggleAllLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
+    const infoProps = { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 
     return (
 
