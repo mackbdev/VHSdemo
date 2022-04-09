@@ -9,7 +9,7 @@ const TxView = ({ props, animations }) => {
     let blockSelectedAllTxLength = txViewBlockSelectedData.blockTxsLength;
     let blockSelectedTxSendingEth = txViewBlockSelectedData.blockTxSendingEth;
     let blockSelectedTxSendingEthLength = txViewBlockSelectedData.blockTxSendingEthLength;
-
+console.log({txViewBlockSelectedData,msg:'tx view check'})
     return (
 
         <AnimatePresence>

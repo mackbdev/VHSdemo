@@ -4,6 +4,7 @@ import LoadingBar from '../../Misc/LoadingBar'
 const MyBlocksView = ({ props, animations}) => {
     let { userViewHistory } = { ...props }
     let blocksViewed = userViewHistory.length || 0;
+  
     return (
 
         <div className="myblockslistcontain">

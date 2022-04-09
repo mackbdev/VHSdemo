@@ -25,7 +25,7 @@ const App = () => {
     const [priceData, setPriceData] = useState('....');
     const [blocksData, setBlocksData] = useState('....');
     const [selectedBlockRewardData, setSelectedBlockRewardData] = useState(false);
-    
+
     // live update settings, use refs to persist data between renders
     const currentProvider = useRef(false);
     const isBlockNotificationLive = useRef(true);
@@ -131,34 +131,46 @@ const App = () => {
         // small user auth handle
         if (!isUserLoggedIn) return latestBlocksViewSelect();
         let userViewCache = localStorage.getItem(userID) || false;
-        userViewCache = userViewCache ? JSON.parse(userViewCache) : userViewCache
+        userViewCache = userViewCache !== false ? JSON.parse(userViewCache) : userViewCache
         console.log({ isUserLoggedIn, userViewCache })
         setLoadingTxViewData(true)
         setUserViewHistory(userViewCache);
         setLoadingTxViewData(false);
         setView('myBlocksView');
-        console.log({ msg: 'myblocks', userID })
     }
     const txViewSelect = async (blockSelected) => {
+
         if (blockSelected === false) return latestBlocksViewSelect()
-        let latestBlocks = blocksData.latestBlocksFiltered;
-        let blockSelectedData = latestBlocks.find(data => data.block === blockSelected);
+
+
+        let blockSelectedData;
+        if (view === 'myBlocksView') {
+            blockSelectedData = localStorage.getItem(userData.userID) || false;
+            blockSelectedData = blockSelectedData !== false ? JSON.parse(blockSelectedData) : blockSelectedData
+            blockSelectedData = blockSelectedData.find(data => data.block === blockSelected);
+        } else {
+            let latestBlocks = blocksData.latestBlocksFiltered;
+            blockSelectedData = latestBlocks.find(data => data.block === blockSelected);
+        }
 
         // handle caching of blocks viewed by a given user
-        if (isUserLoggedIn) {
+        if (isUserLoggedIn && view !== 'myBlocksView') {
             let userViewCache = localStorage.getItem(userData.userID) || false;
+            console.log({msg:'store block viewed',userViewCache})
             if (userViewCache !== false) {
                 userViewCache = JSON.parse(userViewCache)
-                // check if block already exists before saving 
-                //console.log({msg:'viewselect',isUserLoggedIn,userViewCache,blockSelectedData,res:userViewCache.find(block => block.block == blockSelectedData.block)})
+
+                // check if user already viewed block
                 if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
+
+
+            } else {
                 try {
-                    localStorage.setItem(userData.userID, JSON.stringify(userViewCache))
+                    localStorage.setItem(userData.userID, JSON.stringify([blockSelectedData]))
                 } catch (err) {
                     toast.error('LocalStorage Error, Out of space!', { position: toast.POSITION.TOP_RIGHT })
                 }
-            } else {
-                localStorage.setItem(userData.userID, JSON.stringify([blockSelectedData]))
+                
             }
         }
 
