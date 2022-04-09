@@ -1,13 +1,15 @@
+import DivContainer from '../../Containers/DivContainer'
+
 const Logo = ({ props }) => {
 
     return (
-        
-        <div className="logocontain">
-            <a href='/' style={{all:'unset', width: '100%', cursor:'pointer'}}>
+
+        <DivContainer containerClass={{ class: 'logocontain' }}>
+            <a href='/' style={{ all: 'unset', width: '100%', cursor: 'pointer' }}>
                 <img src="/logo.gif" alt="logo" className="logo" />
-         </a>
-        </div>
-       
+            </a>
+        </DivContainer>
+
     )
 };
 

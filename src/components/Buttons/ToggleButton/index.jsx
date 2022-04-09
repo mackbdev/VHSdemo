@@ -1,7 +1,10 @@
 import '../index.css';
+
 const ToggleButton = ({ props }) => {
+
     const { data } = { ...props }
     const { state, toggleFunction, title } = { ...data }
+    
     return (
         <span data-testid="toggle-button">
             {state ?
