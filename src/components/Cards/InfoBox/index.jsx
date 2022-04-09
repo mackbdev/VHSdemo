@@ -7,14 +7,12 @@ const InfoBox = ({ props }) => {
     let price = priceData.price;
     let priceString = priceData.priceString || '.....';
     let totalTx = blocksData.totalTx || '.....';
-    let totalValueOfTxSendingEth = blocksData.totalValueOfTxSendingEth || '.....';
-    // calculations crash and randomly throw NaN, relying on toFixed()
+    let totalValueOfTxSendingEth = blocksData.totalValueOfTxSendingEth || '....';
     let totalValueOfTxSendingEthUSD = (Number(totalValueOfTxSendingEth) * (price));
-    // NaN error thrown when trying calculate USD amount of 1000+ ETH
-    totalValueOfTxSendingEthUSD = totalValueOfTxSendingEthUSD.toFixed(2).toLocaleString("en-US")
-    // commify util fails as well
-    //totalValueOfTxSendingEthUSD = ethers.utils.commify(totalValueOfTxSendingEthUSD)
-    let totalGasBurned = blocksData.totalGasBurned || '.....';
+    console.log({msg:'weird error with price 1000+ eth',totalValueOfTxSendingEth,totalValueOfTxSendingEthUSD,price},Number(totalValueOfTxSendingEth))
+    totalValueOfTxSendingEth = totalValueOfTxSendingEth.toLocaleString("en-US")
+    totalValueOfTxSendingEthUSD = totalValueOfTxSendingEthUSD.toLocaleString("en-US")
+    let totalGasBurned = blocksData.totalGasBurned || '....';
     let totalGasBurnedUSD = (Number(totalGasBurned) * (price)).toLocaleString("en-US");
     let toggleButtons = [
         { state: toggleLiveUpdatesState, toggleFunction: toggleLiveUpdates, title: 'Updates' },

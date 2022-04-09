@@ -34,7 +34,8 @@ export const getLiveDexPrice = async (providerWSS, routerContract, pathArray, to
         const inputAmount = ethers.utils.parseUnits('1', tokenIn.tokenDecimals);
         let res = await router.getAmountsIn(inputAmount, pathArray);
         let price = Number(ethers.utils.formatUnits(res[0], tokenOut.tokenDecimals))
-        let priceString = fixedNoRound2(price).toLocaleString("en-US");
+        price = fixedNoRound2(price);
+        let priceString = price.toLocaleString("en-US");
         return { tokenName: tokenIn.tokenName, price, priceString, units: tokenOut.tokenName };
     } catch (err) {
         console.log('Could not fetch price!', err);
@@ -104,9 +105,10 @@ export const initBlocks = async (providerWSS, latestBlock, latestCount) => {
             totalTx += blockTxsLength;
             for await (const tx of blockTxs) {
                 if (tx.value.gt(0)) {
-                    blockTxSendingEth.push({ txHash: tx.hash, from: tx.from, to: tx.to, confirmations: tx.confirmations, txValue: fixedNoRound2(Number(ethers.utils.formatUnits(tx.value, 'ether'))), block: block.number })
+                    let txValue = fixedNoRound2(Number(ethers.utils.formatUnits(tx.value, 'ether')));
+                    blockTxSendingEth.push({ txHash: tx.hash, from: tx.from, to: tx.to, confirmations: tx.confirmations, txValue, block: block.number })
                     totalTxSendingEth++;
-                    blockTotalEthSent += Number(ethers.utils.formatUnits(tx.value, 'ether'));
+                    blockTotalEthSent += txValue;
                 }
             }
             let blockTxSendingEthLength = blockTxSendingEth.length;
@@ -118,7 +120,7 @@ export const initBlocks = async (providerWSS, latestBlock, latestCount) => {
         // format results - add commas and fixed decimal space no rounding
         totalTx = totalTx.toLocaleString("en-US");
         totalTxSendingEth = totalTxSendingEth.toLocaleString("en-US");
-        totalValueOfTxSendingEth = fixedNoRound2(totalValueOfTxSendingEth).toLocaleString("en-US");
+        totalValueOfTxSendingEth = fixedNoRound2(totalValueOfTxSendingEth);
         totalGasBurned = fixedNoRound2(totalGasBurned).toLocaleString("en-US");;
         let data = { totalGasBurned, totalTx, totalTxSendingEth, totalValueOfTxSendingEth, latestBlocksInfo, latestBlocksFiltered }
         return data
