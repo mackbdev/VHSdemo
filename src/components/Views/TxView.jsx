@@ -23,7 +23,7 @@ const TxView = ({ props, animations }) => {
                         <h4 className="blocktitleheading">Showing Transactions Only Sending ETH ({blockSelectedTxSendingEthLength} Transactions)</h4>
                     </div>
                     <div className="listcontain">
-                        {blockSelectedTxSendingEthLength < 0 ? <LoadingBar props={{ msg: 'This Block Has No TXs....Check Another!', showLoader: true }} /> :
+                        {blockSelectedTxSendingEthLength <= 0 ? <LoadingBar props={{ msg: 'This Block Has No TXs....Check Another!', showLoader: false }} /> :
                             loadingTxViewData ? <LoadingBar props={{ msg: 'Loading Tx Data....', showLoader: true }} /> : blockSelectedTxSendingEth.map((data) => {
                                 let childProps = { parentProps: props, data };
                                 return <TxsPill key={data.txHash} props={childProps} />
