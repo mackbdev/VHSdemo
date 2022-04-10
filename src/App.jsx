@@ -234,7 +234,7 @@ const App = () => {
             });
 
             // get block reward for block selected 
-            let blockRewardData = await getBlockReward(providers.ethWSS, blockSelected,staticData.blockReward);
+            let blockRewardData = await getBlockReward(providers.ethWSS, blockSelected, staticData.blockReward);
 
             // restore user toggleLiveUpdatesState state incase it was enabled
             if (previousLiveUpdatestate) toggleLiveUpdates();
@@ -279,11 +279,11 @@ const App = () => {
     useLayoutEffect(() => {
 
         getAppData(providers.ethWSS, staticData.latestCount)
-        
+
         // no metamask on safari
         let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        
-        if (typeof window.performance.getEntriesByType !== 'undefined' && !isSafari) {    
+
+        if (typeof window.performance.getEntriesByType !== 'undefined' && !isSafari) {
             // listen for page reload & log back in if cached
             if (String(window.performance.getEntriesByType("navigation")[0].type) === 'reload') {
                 web3Login()
@@ -291,11 +291,11 @@ const App = () => {
         }
 
     }, [])
-    
+
     // listen for metamask events
     useEffect(() => {
 
-        if (typeof window.ethereum !== 'undefined') {     
+        if (typeof window.ethereum !== 'undefined') {
             window.ethereum.removeListener("accountsChanged", () => { })
             window.ethereum.removeListener("chainChanged", () => { })
             window.ethereum.on('chainChanged', (chainID) => {
@@ -306,7 +306,7 @@ const App = () => {
                 window.location.reload()
             });
         }
-        
+
     }, [userDataState])
 
     // live update for blocks
@@ -349,32 +349,32 @@ const App = () => {
     const infoProps = { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 
     return (
-
-        <DivContainer containerClass={{ class: 'appcontain' }}>
-            <Nav props={navProps} />
-            <DivContainer containerClass={{ class: 'sectioncontain' }}>
-                <DivContainer containerClass={{ class: 'dashcontain' }}>
-                    {/* load try again later page if data cannot be pulled successfully */}
-                    {!didCoreDataFail && <span data-testid='app'></span>}
-                    {!didCoreDataFail && <InfoBox props={infoProps} />}
-                    {!didCoreDataFail && <Dashboard props={props} />}
-                    {didCoreDataFail &&
-                        <DivContainer containerClass={{ class: 'loadingbarcontain' }}>
-                            <Loadingbar props={{ msg: 'Core Data Failed to Load....Please Try Again!', showLoader: false }} />
-                        </DivContainer>
-                    }
-                    {/* mobile view placeholder */}
-                    <DivContainer containerClass={{ class: 'mobiledisclaimercontain' }}>
-                        <DivContainer containerClass={{ class: 'minititlecontain' }}>
-                            <TitleHeading props={{ headerSize: 6, title: `Mobile Not Ready :)` }} titleClass={{ class: 'discalimertitleheading' }} />
+        <span data-testid='app'>
+            <DivContainer containerClass={{ class: 'appcontain' }}>
+                <Nav props={navProps} />
+                <DivContainer containerClass={{ class: 'sectioncontain' }}>
+                    <DivContainer containerClass={{ class: 'dashcontain' }}>
+                        {/* load try again later page if data cannot be pulled successfully */}
+                        {!didCoreDataFail && <InfoBox props={infoProps} />}
+                        {!didCoreDataFail && <Dashboard props={props} />}
+                        {didCoreDataFail &&
+                            <DivContainer containerClass={{ class: 'loadingbarcontain' }}>
+                                <Loadingbar props={{ msg: 'Core Data Failed to Load....Please Try Again!', showLoader: false }} />
+                            </DivContainer>
+                        }
+                        {/* mobile view placeholder */}
+                        <DivContainer containerClass={{ class: 'mobiledisclaimercontain' }}>
+                            <DivContainer containerClass={{ class: 'minititlecontain' }}>
+                                <TitleHeading props={{ headerSize: 6, title: `Mobile Not Ready :)` }} titleClass={{ class: 'discalimertitleheading' }} />
+                            </DivContainer>
                         </DivContainer>
                     </DivContainer>
                 </DivContainer>
+                <DivContainer containerClass={{ class: 'footercontain' }} />
+                {/* container used to display toast notifications */}
+                <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             </DivContainer>
-            <DivContainer containerClass={{ class: 'footercontain' }} />
-            {/* container used to display toast notifications */}
-            <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-        </DivContainer>
+        </span>
 
     );
 };
