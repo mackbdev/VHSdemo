@@ -76,7 +76,6 @@ export const getBlockReward = async (providerWSS, blockData, staticBlockReward) 
         let blockTxs = blockData.blockTxs;
         let blockGasBurned = blockData.gasBurned;
         let blockTxsLength = blockData.blockTxsLength;
-        console.log({blockTxs})
         for await (let tx of blockTxs) {
             let txFee = await getTxFee(providerWSS, tx.hash);
             blockGasPaid += txFee;

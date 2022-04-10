@@ -72,7 +72,7 @@ List of Tests:
 - App
 - ToggleButton
 - coreFunctions
-ß
+
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\

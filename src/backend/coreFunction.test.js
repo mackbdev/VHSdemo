@@ -49,10 +49,12 @@ describe('Core Functions Test', () => {
         let count = 3;
         let latestBlock = await getLatestBlock(providers.ethWSS);
         let data = await initBlocks(providers.ethWSS, latestBlock, count);
-        let blockData = data.latestBlocksFiltered[0];
-        console.log(blockData)
+        let blockData = data.latestBlocksFiltered;
+        // becuase of rate limit
+        blockData = blockData.find(data => data.blockTxsLength < 100);
         let blockReward = await getBlockReward(providers.ethWSS, blockData, staticData.blockReward);
         expect(blockReward).toBeGreaterThanOrEqual(staticData.blockReward);
-    })
+        // timeout occurs, added large time interval so test can complete
+    }, 500000)
 
 })
