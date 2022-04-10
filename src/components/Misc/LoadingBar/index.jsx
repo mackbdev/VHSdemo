@@ -1,5 +1,6 @@
 import DivContainer from '../../Containers/DivContainer'
-import TitleHeading from '../../Misc/TitleHeading'
+import TitleHeading from '../TitleHeading'
+import './index.css'
 
 const Loadingbar = ({ props }) => {
 

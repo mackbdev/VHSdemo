@@ -1,4 +1,5 @@
 import DivContainer from '../../Containers/DivContainer'
+import './index.css';
 
 const Logo = ({ props }) => {
 

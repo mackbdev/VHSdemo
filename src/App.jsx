@@ -13,7 +13,6 @@ import { addresses, providers, staticData, evmChains, _infuraID, etherscanLinks 
 import { getVanity, fixedNoRound2, getLiveDexPrice, getLatestBlock, getTxFee, initBlocks } from './backend/coreFunctions'
 import 'react-toastify/dist/ReactToastify.css';
 
-
 // -- app component -- //
 const App = () => {
 
