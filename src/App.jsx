@@ -261,7 +261,7 @@ const App = () => {
             pending: `Block: #${block} ~ Total TXs: ${blockTxsLength}\n\nLoading Reward.....`,
             error: 'Reward Loading Error ~ Rate Limit :(\n\nTry Again Later.....'
         });
-        
+
     }
 
     // load init data
@@ -286,24 +286,28 @@ const App = () => {
     useLayoutEffect(() => {
         getAppData(providers.ethWSS, staticData.latestCount)
         // listen for page reload & log back in if cached
-        if (String(window.performance.getEntriesByType("navigation")[0].type) === 'reload') {
-            web3Login()
+        if (typeof window != undefined && isUserLoggedIn) {
+            let windowNavigationState = String(window.performance.getEntriesByType("navigation")[0].type);
+            if (windowNavigationState === 'reload') {
+                web3Login()
+            }
         }
     }, [])
 
     // listen for window ethereum updates
     useEffect(() => {
-        window.ethereum.removeListener("accountsChanged", () => { })
-        window.ethereum.removeListener("chainChanged", () => { })
-        if (!userData) return
-        window.ethereum.on('chainChanged', (chainID) => {
-            if (chainID !== evmChains.eth) web3Logout()
-            console.log('chainChanged', chainID);
-        });
-        window.ethereum.on('accountsChanged', (accounts) => {
-            window.location.reload()
-        });
-
+        if (typeof window != undefined && isUserLoggedIn) {
+            window.ethereum.removeListener("accountsChanged", () => { })
+            window.ethereum.removeListener("chainChanged", () => { })
+            if (!userData) return
+            window.ethereum.on('chainChanged', (chainID) => {
+                if (chainID !== evmChains.eth) web3Logout()
+                console.log('chainChanged', chainID);
+            });
+            window.ethereum.on('accountsChanged', (accounts) => {
+                window.location.reload()
+            });
+        }
     }, [userData])
 
     // live update for blocks
@@ -316,7 +320,7 @@ const App = () => {
                 currentProvider.current = publicProvider;
             } catch (err) {
                 err = { msg: 'Websocket failed connection with provider!', err }
-                console.log({err})
+                console.log({ err })
                 toast.error(err.msg)
             }
         }
@@ -352,6 +356,7 @@ const App = () => {
             <DivContainer containerClass={{ class: 'sectioncontain' }}>
                 <DivContainer containerClass={{ class: 'dashcontain' }}>
                     {/* load try again later page if data cannot be pulled successfully */}
+                    {!didCoreDataFail && <span data-testid='app'></span>}
                     {!didCoreDataFail && <InfoBox props={infoProps} />}
                     {!didCoreDataFail && <Dashboard props={props} />}
                     {didCoreDataFail &&
