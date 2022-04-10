@@ -67,16 +67,12 @@ You may also see any lint errors in the console.
 
 I do not have much experience testing React Apps.
 
-List of Components Tested:
+List of Tests:
+
+- App
 - ToggleButton
-
-
-### `npm test in the /jtest folder`
-
-Launches a jest test for the core functions used to gather data in the React app.
-Must run ` npm i ` to install the jest package in this directory.
-
-
+- coreFunctions
+ß
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\

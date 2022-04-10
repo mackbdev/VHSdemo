@@ -23,7 +23,7 @@
     "start": "react-app-rewired start",
     "startOriginal": "react-scripts start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "test": "react-app-rewired test --coverage",
     "eject": "react-scripts eject",
     "webpack": "webpack --config webpack.config.js"
   },
