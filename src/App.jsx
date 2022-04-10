@@ -17,8 +17,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
 
     // set user state
-    const [userViewHistory, setUserViewHistory] = useState(false);
-    const [userData, setUserData] = useState(false);
+    const [userDataState, setUserDataState] = useState(false);
+    const [userViewBlocksHistory, setUserViewBlocksHistory] = useState(false);
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const [loadingUserLogin, setLoadingUserLogin] = useState(false);
 
@@ -96,8 +96,10 @@ const App = () => {
     //-- web3 auth --//
     const web3Login = async () => {
         setLoadingUserLogin(true)
+
         let provider;
         let metaWallet;
+
         const providerOptions = {
             walletconnect: {
                 package: WalletConnectProvider, // required
@@ -106,40 +108,43 @@ const App = () => {
                 }
             }
         }
+
         const web3Modal = new Web3Modal({
             theme: 'dark', // optional
             providerOptions, // required
             cacheProvider: true, // optional
         });
-        try {
 
+        try {
             provider = await web3Modal.connect();
             await provider.request({ method: 'eth_requestAccounts' });
             metaWallet = new ethers.providers.Web3Provider(provider, 'any')
             console.log({ msg: 'Connection successful!', metaWallet })
         } catch (e) {
-            setIsUserLoggedIn(false)
-            setLoadingUserLogin(false)
+            setUserDataState(false)
+            setIsUserLoggedIn(false);
             return null;
         }
 
         let chainID = await metaWallet.provider.networkVersion
+
         console.log({ chainID })
+
         if (chainID === evmChains.eth) {
             let signer = metaWallet.getSigner();
             let userID = await signer.getAddress();
             let userVanity = getVanity(userID, 4, 4);
             let userData = { userID, userVanity, metaWallet, signer, provider, chainID };
-            setUserData(userData)
+            setUserDataState(userData);
             setIsUserLoggedIn(true);
-            setLoadingUserLogin(false);
-            return
         } else {
-            setIsUserLoggedIn(false)
-            setLoadingUserLogin(false)
+            setUserDataState(false);
+            setIsUserLoggedIn(false);
             toast.error('Wrong Network. Please swtich to ETH Mainnet!', { position: toast.POSITION.TOP_CENTER })
-            return
         }
+
+        setLoadingUserLogin(false)
+
     }
     const web3Logout = async () => {
         setLoadingUserLogin(true)
@@ -158,7 +163,7 @@ const App = () => {
         userViewCache = userViewCache !== false ? JSON.parse(userViewCache) : userViewCache
         console.log({ isUserLoggedIn, userViewCache })
         setLoadingTxViewData(true)
-        setUserViewHistory(userViewCache);
+        setUserViewBlocksHistory(userViewCache);
         setLoadingTxViewData(false);
         setView('myBlocksView');
     }
@@ -168,7 +173,7 @@ const App = () => {
 
         let blockSelectedData;
         if (view === 'myBlocksView') {
-            blockSelectedData = localStorage.getItem(userData.userID) || false;
+            blockSelectedData = localStorage.getItem(userDataState.userID) || false;
             blockSelectedData = blockSelectedData !== false ? JSON.parse(blockSelectedData) : blockSelectedData
             blockSelectedData = blockSelectedData.find(data => data.block === blockSelected);
         } else {
@@ -178,7 +183,7 @@ const App = () => {
 
         // handle caching of blocks viewed by a given user
         if (isUserLoggedIn && view !== 'myBlocksView') {
-            let userViewCache = localStorage.getItem(userData.userID) || false;
+            let userViewCache = localStorage.getItem(userDataState.userID) || false;
             console.log({ msg: 'store block viewed', userViewCache })
             if (userViewCache !== false) {
                 userViewCache = JSON.parse(userViewCache)
@@ -188,7 +193,7 @@ const App = () => {
 
             } else {
                 try {
-                    localStorage.setItem(userData.userID, JSON.stringify([blockSelectedData]))
+                    localStorage.setItem(userDataState.userID, JSON.stringify([blockSelectedData]))
                 } catch (err) {
                     toast.error('LocalStorage Error, Out of space!', { position: toast.POSITION.TOP_RIGHT })
                 }
@@ -284,22 +289,29 @@ const App = () => {
 
     // -- useEffects --//
     useLayoutEffect(() => {
+
         getAppData(providers.ethWSS, staticData.latestCount)
-        // listen for page reload & log back in if cached
-        if (typeof window != undefined && isUserLoggedIn) {
+        
+        // no metamask on safari
+        let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (typeof window != undefined && !isSafari) {    
+            // listen for page reload & log back in if cached
             let windowNavigationState = String(window.performance.getEntriesByType("navigation")[0].type);
             if (windowNavigationState === 'reload') {
                 web3Login()
             }
         }
-    }, [])
 
-    // listen for window ethereum updates
+    }, [])
+    
+    // listen for metamask events
     useEffect(() => {
-        if (typeof window != undefined && isUserLoggedIn) {
+
+        // no metamask on safari
+        let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (typeof window != undefined && !isSafari) {     
             window.ethereum.removeListener("accountsChanged", () => { })
             window.ethereum.removeListener("chainChanged", () => { })
-            if (!userData) return
             window.ethereum.on('chainChanged', (chainID) => {
                 if (chainID !== evmChains.eth) web3Logout()
                 console.log('chainChanged', chainID);
@@ -308,7 +320,8 @@ const App = () => {
                 window.location.reload()
             });
         }
-    }, [userData])
+        
+    }, [userDataState])
 
     // live update for blocks
     useEffect(() => {
@@ -343,9 +356,9 @@ const App = () => {
         //console.log('after listener starts count', currentProvider.current.listeners())
     }, [toggleLiveNotifyUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveUpdatesState])
 
-    const props = { userViewHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers };
+    const props = { userViewBlocksHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers };
 
-    const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userData, myBlocksViewSelect, setView };
+    const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userDataState, myBlocksViewSelect, setView };
 
     const infoProps = { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 

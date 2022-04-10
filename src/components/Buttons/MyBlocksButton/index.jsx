@@ -2,11 +2,11 @@ import '../index.css';
 
 const MyBlocksButton = ({ props }) => {
 
-    const { userData, myBlocksViewSelect } = { ...props };
+    const { userDataState, myBlocksViewSelect } = { ...props };
 
     return (
         <>
-            <button onClick={() => myBlocksViewSelect(userData.userID)} className="button">My Blocks</button>
+            <button  onClick={() => myBlocksViewSelect(userDataState.userID)} className="button">My Blocks</button>
         </>
     )
 };

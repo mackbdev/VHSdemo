@@ -5,8 +5,8 @@ import TitleHeading from '../../Misc/TitleHeading'
 
 const MyBlocksView = ({ props, animations }) => {
 
-    let { userViewHistory } = { ...props }
-    let blocksViewed = userViewHistory.length || 0;
+    let { userViewBlocksHistory } = { ...props }
+    let blocksViewed = userViewBlocksHistory.length || 0;
 
     return (
 
@@ -18,7 +18,7 @@ const MyBlocksView = ({ props, animations }) => {
                     <TitleHeading props={{ headerSize: 4, title: `Total Blocks Viewed: ${blocksViewed}` }} titleClass={{ class: 'blocktitleheading' }} />
                 </DivContainer>
                 <DivContainer containerClass={{ class: 'listcontain' }}>
-                    {!userViewHistory ? <LoadingBar props={{ msg: 'No History....Browse Some Blocks!' }} /> : userViewHistory.map((data) => {
+                    {!userViewBlocksHistory ? <LoadingBar props={{ msg: 'No History....Browse Some Blocks!' }} /> : userViewBlocksHistory.map((data) => {
                         let childProps = { parentProps: props, data };
                         return <BlockPill key={data.block} props={childProps} animations={animations} />
                     })}
