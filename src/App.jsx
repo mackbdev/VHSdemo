@@ -205,43 +205,65 @@ const App = () => {
     // -- Gather data -- //
     // load block reward, uncle block not inlcuded
     const loadBlockRewardData = async (blockSelected) => {
-        if (loadingBlockRewardData) throw toast.warning('Only 1 Block at time ~ Due to rate limiting!')
+        if (loadingBlockRewardData) return toast.warning('Only 1 Block at time ~ Due to rate limiting!')
         if (blockSelected === false) return latestBlocksViewSelect()
         if (blockSelected.blockTxsLength > 100) throw toast.warning('Try a Block with 100 TXs or Less ~ Due to rate limiting!')
         setLoadingBlockRewardData(true);
-        let blockGasPaid = 0;
         let block = blockSelected.block;
         let blockTxs = blockSelected.blockTxs;
         let blockTxsLength = blockSelected.blockTxsLength;
-        let blockGasBurned = blockSelected.gasBurned;
+        let rewardPromiseFail;
 
+        // used for toast notification
         const rewardPromise = new Promise(async (resolve, reject) => {
-            let previousLiveUpdatestate = enableLiveUpdates.current;
 
             // disable all live updates due to rate limiting that may occur when collecting total tx fees from a given block
+            let previousLiveUpdatestate = enableLiveUpdates.current;
             if (enableLiveUpdates.current) toggleLiveUpdates();
+
+            // wait 1 sec per tx loaded if no resolve by then websocket hit rate limit, used to throw toast error
+            rewardPromiseFail = new Promise((resolve, reject) => {
+                let waitTime = blockTxsLength * 1000;
+                setTimeout(() => {
+                    setLoadingBlockRewardData(false)
+                    reject(console.log({ msg: 'timeout activated loadblock reward' }))
+                }, waitTime);
+            });
+
+            //------// loop through all TXs in block to get total gas paid by each TX, could be moved to core functions
             let counter = 0
+            let blockGasPaid = 0;
+            let blockGasBurned = blockSelected.gasBurned;
             for await (let tx of blockTxs) {
                 let txFee = await getTxFee(providers.ethWSS, tx.hash);
                 blockGasPaid += txFee;
                 counter++
-                console.log({ msg: 'Loading block reward...', progress: `${counter}/${blockTxsLength}` })
+                console.log({ msg: 'Loading block reward...', progress: `${counter}/${blockTxsLength}`, txFee })
             }
             let blockRewardData = fixedNoRound2(staticData.blockReward + blockGasPaid - blockGasBurned);
+            //------------------//
+
             // restore user toggleLiveUpdatesState state incase it was enabled
             if (previousLiveUpdatestate) toggleLiveUpdates();
-            // Notify Block Reward Data upon success
-            toast.success(`Block: #${block} ~ Reward: ${blockRewardData} ETH ~ Value: $${fixedNoRound2(priceData.price * blockRewardData)}`)
             setSelectedBlockRewardData({ block, blockRewardData });
-            resolve(setLoadingBlockRewardData(false));
+            // notify block reward data upon success
+            let resolveCallback = () => {
+                setLoadingBlockRewardData(false)
+                toast.success(`Block: #${block} ~ Reward: ${blockRewardData} ETH ~ Value: $${fixedNoRound2(priceData.price * blockRewardData)}`)
+            }
+            resolve(resolveCallback());
             reject(setLoadingBlockRewardData(false));
         });
 
-        toast.promise(rewardPromise, {
+        // if timeout resolves before data loaded, show error notification 
+        let toastPromiseResult = Promise.race([rewardPromise, rewardPromiseFail])
+        toast.promise(toastPromiseResult, {
             pending: `Block: #${block} ~ Total TXs: ${blockTxsLength}\n\nLoading Reward.....`,
-            error: "Try Again Later....."
+            error: 'Reward Loading Error ~ Rate Limit :(\n\nTry Again Later.....'
         });
+        
     }
+
     // load init data
     const getAppData = async (providerWSS, latestCount) => {
         try {

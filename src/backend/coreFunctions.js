@@ -53,8 +53,8 @@ export const getLatestBlock = async (providerWSS) => {
 }
 export const getTxFee = async (providerWSS, txHash) => {
     try {
-        let publicProvider = new ethers.providers.WebSocketProvider(providerWSS);
-        let txReceipt = await publicProvider.getTransactionReceipt(txHash);
+        let tempProvider = new ethers.providers.WebSocketProvider(providerWSS);
+        let txReceipt = await tempProvider.getTransactionReceipt(txHash);
         let isNull = false;
         txReceipt === null ? isNull = true : isNull = false
         let txGasUsed = isNull ? 0 : txReceipt.gasUsed
