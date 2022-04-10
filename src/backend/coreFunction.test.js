@@ -1,12 +1,13 @@
-import { getVanity, fixedNoRound2, countdown, getLiveDexPrice, getLatestBlock, getTxFee, initBlocks } from './coreFunctions';
-import { addresses, providers, _infuraID } from './staticVariables';
+import { getVanity, fixedNoRound2, countdown, getLiveDexPrice, getLatestBlock, getTxFee, getBlockReward, initBlocks } from './coreFunctions';
+import { addresses, providers, staticData, _infuraID } from './staticVariables';
 
 describe('Core Functions Test', () => {
+
     it('Takes in a string and returns the number of characters chosen from the front & back with 3 dots for ex. (Happy,2,2) returns Ha...py', () => {
         expect(getVanity('Happy', 2, 2)).toBe('Ha...py')
     })
 
-    it('Excpect number input to be returned with 2 decimal places and not rounded.', () => {
+    it('Expect number input to be returned with 2 decimal places and not rounded.', () => {
         expect(fixedNoRound2(8547.5366)).toBe(8547.53)
     })
 
@@ -42,6 +43,16 @@ describe('Core Functions Test', () => {
         let firstBlockOfArray = arrayOfBlocks[0].number;
         expect(firstBlockOfArray).toEqual(latestBlock)
         expect(lengthOfBlocksArray).toEqual(count + 1)
+    })    
+    
+    it('Expect block reward to be equal to or greater than the static block reward', async () => {
+        let count = 3;
+        let latestBlock = await getLatestBlock(providers.ethWSS);
+        let data = await initBlocks(providers.ethWSS, latestBlock, count);
+        let blockData = data.latestBlocksFiltered[0];
+        console.log(blockData)
+        let blockReward = await getBlockReward(providers.ethWSS, blockData, staticData.blockReward);
+        expect(blockReward).toBeGreaterThanOrEqual(staticData.blockReward);
     })
 
 })

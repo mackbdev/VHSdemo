@@ -10,7 +10,7 @@ import InfoBox from './components/Core/InfoBox'
 import Loadingbar from './components/Misc/LoadingBar';
 import TitleHeading from './components/Misc/TitleHeading';
 import { addresses, providers, staticData, evmChains, _infuraID, etherscanLinks } from './backend/staticVariables'
-import { getVanity, fixedNoRound2, getLiveDexPrice, getLatestBlock, getTxFee, initBlocks } from './backend/coreFunctions'
+import { getVanity, fixedNoRound2, getLiveDexPrice, getLatestBlock, getTxFee, getBlockReward, initBlocks } from './backend/coreFunctions'
 import 'react-toastify/dist/ReactToastify.css';
 
 // -- app component -- //
@@ -215,10 +215,8 @@ const App = () => {
         if (blockSelected.blockTxsLength > 100) throw toast.warning('Try a Block with 100 TXs or Less ~ Due to rate limiting!')
         setLoadingBlockRewardData(true);
         let block = blockSelected.block;
-        let blockTxs = blockSelected.blockTxs;
         let blockTxsLength = blockSelected.blockTxsLength;
         let rewardPromiseFail;
-
         // used for toast notification
         const rewardPromise = new Promise(async (resolve, reject) => {
 
@@ -235,18 +233,8 @@ const App = () => {
                 }, waitTime);
             });
 
-            //------// loop through all TXs in block to get total gas paid by each TX, could be moved to core functions
-            let counter = 0
-            let blockGasPaid = 0;
-            let blockGasBurned = blockSelected.gasBurned;
-            for await (let tx of blockTxs) {
-                let txFee = await getTxFee(providers.ethWSS, tx.hash);
-                blockGasPaid += txFee;
-                counter++
-                console.log({ msg: 'Loading block reward...', progress: `${counter}/${blockTxsLength}`, txFee })
-            }
-            let blockRewardData = fixedNoRound2(staticData.blockReward + blockGasPaid - blockGasBurned);
-            //------------------//
+            // get block reward for block selected 
+            let blockRewardData = await getBlockReward(providers.ethWSS, blockSelected,staticData.blockReward);
 
             // restore user toggleLiveUpdatesState state incase it was enabled
             if (previousLiveUpdatestate) toggleLiveUpdates();
