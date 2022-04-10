@@ -308,15 +308,16 @@ const App = () => {
 
     // live update for blocks
     useEffect(() => {
+
+        // start new socket connection if none exist
         if (currentProvider.current === false) {
             try {
                 let publicProvider = new ethers.providers.WebSocketProvider(providers.ethWSS);
                 currentProvider.current = publicProvider;
             } catch (err) {
                 err = { msg: 'Websocket failed connection with provider!', err }
+                console.log({err})
                 toast.error(err.msg)
-                throw console.log(err)
-
             }
         }
 
