@@ -294,10 +294,10 @@ const App = () => {
         
         // no metamask on safari
         let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        if (typeof window != undefined && !isSafari) {    
+        
+        if (typeof window.performance.getEntriesByType !== 'undefined' && !isSafari) {    
             // listen for page reload & log back in if cached
-            let windowNavigationState = String(window.performance.getEntriesByType("navigation")[0].type);
-            if (windowNavigationState === 'reload') {
+            if (String(window.performance.getEntriesByType("navigation")[0].type) === 'reload') {
                 web3Login()
             }
         }
@@ -307,9 +307,7 @@ const App = () => {
     // listen for metamask events
     useEffect(() => {
 
-        // no metamask on safari
-        let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        if (typeof window != undefined && !isSafari) {     
+        if (typeof window.ethereum !== 'undefined') {     
             window.ethereum.removeListener("accountsChanged", () => { })
             window.ethereum.removeListener("chainChanged", () => { })
             window.ethereum.on('chainChanged', (chainID) => {
