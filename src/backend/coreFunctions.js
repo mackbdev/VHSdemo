@@ -77,7 +77,7 @@ export const getBlocksInfo = async (providerWSS, arrayOfBlocks) => {
         return allBlocksInfo
     } catch (err) {
         
-        throw console.log({msg:'getTxFeeError',err})
+        throw console.log({msg:'getBlocksInfoError',err})
     }
 }
 export const initBlocks = async (providerWSS, latestBlock, latestCount) => {
