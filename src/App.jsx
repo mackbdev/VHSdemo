@@ -152,7 +152,8 @@ const App = () => {
         setLoadingUserLogin(false)
         setView('latestBlocksView')
     }
-
+    
+    // user to set logged in user blocks viewed to localstorage
     const storeBlocksViewedHandler = (blockSelectedData)=> {
         // handle caching of blocks viewed by a given user
         if (isUserLoggedIn && view === 'latestBlocksView') {
@@ -162,7 +163,7 @@ const App = () => {
                 // check if user already viewed block
                 if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
                 localStorage.setItem(userDataState.userID, JSON.stringify(userViewCache))
-                console.log({ msg: 'block viewed', userViewCache,blockSelectedData })
+                //console.log({ msg: 'block viewed', userViewCache,blockSelectedData })
 
             } else {
                 try {
