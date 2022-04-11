@@ -14,7 +14,7 @@ const Dashboard = ({ props }) => {
         style: {
             position: isPresent ? 'static' : 'absolute'
         },
-        initial: { scale: 0.8, opacity: 0 },
+        initial: { scale: 1, opacity: 0 },
         animate: { scale: 1, opacity: 1 },
         exit: { scale: 1, opacity: 0.8 },
         transition: { ease: [0.42, 0, 0.58, 1], duration: 0.8 }

@@ -16,15 +16,15 @@ const TxView = ({ props, animations }) => {
 
     return (
 
-        <AnimatePresence>
-            <motion.div {...animations} className="txlistcontain">
+
+            <DivContainer containerClass={{ class: 'txlistcontain' }} >
                 <DivContainer containerClass={{ class: 'blocktxcontain' }}>
                     <DivContainer containerClass={{ class: 'blocktitlescontain' }}>
-                        <a href={`${etherscanLinks.block}/${blockSelected}`} style={{ all: 'unset', width: '100%', cursor: 'pointer' }}>
-                            <TitleHeading props={{ headerSize: 4, title: `Block #${blockSelected} (${blockSelectedAllTxLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
+                        <a href={`${etherscanLinks.block}/${blockSelected}`} >
+                            <TitleHeading props={{ headerSize: 3, title: `Block #${blockSelected} (${blockSelectedAllTxLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
                         </a>
                         <TitleHeading onClick={() => loadBlockRewardData(txViewBlockSelectedData)} props={{ headerSize: 4, title: `Click Here to See Block Reward (Uncle not Included)` }} titleClass={{ class: 'blockrewardtitleheading' }} />
-                        <TitleHeading props={{ headerSize: 4, title: `Showing Transactions Only Sending ETH (${blockSelectedTxSendingEthLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
+                        <TitleHeading props={{ headerSize: 3, title: `Showing Transactions Only Sending ETH (${blockSelectedTxSendingEthLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
                     </DivContainer>
                     <DivContainer containerClass={{ class: 'listcontain' }}>
                         {blockSelectedTxSendingEthLength <= 0 ?
@@ -37,8 +37,8 @@ const TxView = ({ props, animations }) => {
                     </DivContainer>
                     <GoBackButton props={props} />
                 </DivContainer>
-            </motion.div>
-        </AnimatePresence>
+            </DivContainer>
+    
 
     );
 };

@@ -13,9 +13,9 @@ const MyBlocksView = ({ props, animations }) => {
         <DivContainer containerClass={{ class: 'myblockslistcontain' }}>
             <DivContainer containerClass={{ class: 'myblockscontain' }}>
                 <DivContainer containerClass={{ class: 'blocktitlescontain' }}>
-                    <TitleHeading props={{ headerSize: 4, title: `My Blocks List` }} titleClass={{ class: 'blocktitleheading' }} />
-                    <TitleHeading props={{ headerSize: 4, title: `This is a list of Blocks you viewed on the Dashboard` }} titleClass={{ class: 'blocktitleheading' }} />
-                    <TitleHeading props={{ headerSize: 4, title: `Total Blocks Viewed: ${blocksViewed}` }} titleClass={{ class: 'blocktitleheading' }} />
+                    <TitleHeading props={{ headerSize: 3, title: `My Blocks List` }} titleClass={{ class: 'blocktitleheading' }} />
+                    <TitleHeading props={{ headerSize: 3, title: `This is a list of Blocks you viewed on the Dashboard` }} titleClass={{ class: 'blocktitleheading' }} />
+                    <TitleHeading props={{ headerSize: 3, title: `Total Blocks Viewed: ${blocksViewed}` }} titleClass={{ class: 'blocktitleheading' }} />
                 </DivContainer>
                 <DivContainer containerClass={{ class: 'listcontain' }}>
                     {!userViewBlocksHistory ? <LoadingBar props={{ msg: 'No History....Browse Some Blocks!' }} /> : userViewBlocksHistory.map((data) => {

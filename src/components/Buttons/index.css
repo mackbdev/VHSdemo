@@ -46,7 +46,6 @@
   display: flex;
   width: 12em;
   border: 0;
-  margin-right: 10px;
   padding: 9px 15px;
   line-height: inherit;
   -webkit-box-pack: center;
@@ -119,9 +118,6 @@
   .button {
     width: 8.5em;
   }
-  .togglebutton {
-    width: 12em;
-  }
 }
 
 @media screen and (max-width: 767px) {
@@ -129,8 +125,8 @@
     font-size: 12px;
   }
   .togglebutton {
-    width: 13em;
     font-size: 10px;
+    width: 11.5em;
   }
 }
 

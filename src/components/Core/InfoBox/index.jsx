@@ -1,7 +1,7 @@
 import DivContainer from '../../Containers/DivContainer'
 import TitleHeading from '../../Misc/TitleHeading'
 import ToggleButton from '../../Buttons/ToggleButton'
-import './index.css';
+
 
 const InfoBox = ({ props }) => {
 
@@ -13,8 +13,10 @@ const InfoBox = ({ props }) => {
     let totalValueOfTxSendingEthUSD = (Number(totalValueOfTxSendingEth) * (price));
     totalValueOfTxSendingEth = totalValueOfTxSendingEth.toLocaleString("en-US");
     totalValueOfTxSendingEthUSD = totalValueOfTxSendingEthUSD.toLocaleString("en-US");
+    totalValueOfTxSendingEthUSD = totalValueOfTxSendingEthUSD === 'NaN' ? 0 : totalValueOfTxSendingEthUSD;
     let totalGasBurned = blocksData.totalGasBurned || '....';
     let totalGasBurnedUSD = (Number(totalGasBurned) * (price)).toLocaleString("en-US");
+    totalGasBurnedUSD = totalGasBurnedUSD === 'NaN' ? 0 : totalGasBurnedUSD;
     let toggleButtons = [
         { state: toggleLiveUpdatesState, toggleFunction: toggleLiveUpdates, title: 'Updates' },
         { state: toggleLiveNotifyUpdatesState, toggleFunction: toggleLiveNotifyUpdates, title: 'Notify Updates' },

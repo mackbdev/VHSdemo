@@ -25,7 +25,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 60%;
+  width: 70%;
   margin-bottom: 0.8em;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -41,7 +41,34 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
+.infocontain {
+  position: static;
+  top: 133px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
+  height: 25em;
+  margin-bottom: 2em;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+}
 .leftcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -128,8 +155,8 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 80%;
-  height: 80em;
+  width: 85%;
+  height: auto;
   padding: 1em 1em 2em;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -156,18 +183,18 @@
   display: -ms-flexbox;
   display: flex;
   overflow: scroll;
-  width: 80%;
-  height: 80em;
-  padding: 25px 20px 20px;
+  width: 70%;
+  height: 52em;
+  padding-top: 5px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
+  -webkit-justify-content: center;
   -ms-flex-pack: start;
-  justify-content: flex-start;
+  justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -406,9 +433,9 @@
   -ms-flex-direction: column;
   flex-direction: column;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
+  -webkit-justify-content: space-around;
   -ms-flex-pack: start;
-  justify-content: flex-start;
+  justify-content: space-around;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -422,11 +449,11 @@
   display: -ms-flexbox;
   display: flex;
   overflow: scroll;
-  width: 90%;
-  height: 80%;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  padding-top: 10px;
+  width: 100%;
+  height: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  -webkit-justify-content: flex-start;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -436,6 +463,7 @@
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .blocktitlescontain {
@@ -444,7 +472,7 @@
   display: -ms-flexbox;
   display: flex;
   width: 100%;
-  height: 12%;
+  height: 15%;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -466,7 +494,6 @@
   display: flex;
   width: 95%;
   height: 4em;
-  margin-bottom: 8px;
   padding: 10px 5px;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -481,6 +508,29 @@
   box-shadow: inset 0 0 5px 0 #71bbdb;
 }
 
+
+.txpillcontain {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 95%;
+  height: 4em;
+  padding: 10px 5px;
+  margin-bottom: 10px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-radius: 50px;
+  box-shadow: inset 0 0 5px 0 #cc97d3;
+  cursor: pointer;
+}
+
+.txpillcontain:hover {
+  box-shadow: inset 0 0 5px 0 #71bbdb;
+}
+
 .txlistcontain {
   position: static;
   top: 133px;
@@ -488,9 +538,9 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 85%;
-  height: 50em;
-  padding: 10px 10px 20px;
+  width: 70%;
+  height: 52em;
+  padding: 20px 10px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -565,8 +615,8 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 85%;
-  height: 75%;
+  width: 70%;
+  height: 52em;
   padding: 10px 10px 20px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -640,7 +690,7 @@
   display: flex;
   overflow: visible;
   width: 100%;
-  height: 100%;
+  height: 95%;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -650,7 +700,7 @@
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .loadingbarcontain {
@@ -703,7 +753,7 @@
   }
 
   .blockslistcontain {
-    width: 85%;
+    width: 80%;
   }
 
   .txlistcontain {
@@ -716,6 +766,9 @@
 }
 
 @media screen and (max-width: 991px) {
+  .infocontain {
+    width: 90%;
+  }
   .dashcontain {
     top: 10%;
     width: 90%;
@@ -724,8 +777,8 @@
 
   .blockslistcontain {
     width: 100%;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
   }
 
   .infoblockscontain {
@@ -757,13 +810,12 @@
 }
 
 @media screen and (max-width: 767px) {
+  .navcontain {
+    width: 100%;
+  }
   .dashcontain {
     width: 100%;
     height: 80em;
-  }
-
-  .blockslistcontain {
-    height: 90%;
   }
 
   .listcontain {
@@ -781,6 +833,9 @@
 }
 
 @media screen and (max-width: 479px) {
+  .infocontain {
+    height: 20em;
+  }
   .leftcontain {
     display: -webkit-box;
     display: -webkit-flex;
