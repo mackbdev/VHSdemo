@@ -28,7 +28,8 @@ export const getLiveDexPrice = async (providerWSS, routerContract, pathArray, to
             tempProvider
         );
     } catch (err) {
-        return { status: false, message: 'Could not connect to socket!', err };
+        err = { status: false, message: 'Could not connect to socket!', err }
+        return 0
     }
     try {
         const inputAmount = ethers.utils.parseUnits('1', tokenIn.tokenDecimals);
