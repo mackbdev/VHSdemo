@@ -153,6 +153,28 @@ const App = () => {
         setView('latestBlocksView')
     }
 
+    const storeBlocksViewedHandler = (blockSelectedData)=> {
+        // handle caching of blocks viewed by a given user
+        if (isUserLoggedIn && view === 'latestBlocksView') {
+            let userViewCache = localStorage.getItem(userDataState.userID) || false;
+            if (userViewCache) {
+                userViewCache = JSON.parse(userViewCache)
+                // check if user already viewed block
+                if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
+                localStorage.setItem(userDataState.userID, JSON.stringify(userViewCache))
+                console.log({ msg: 'block viewed', userViewCache,blockSelectedData })
+
+            } else {
+                try {
+                    localStorage.setItem(userDataState.userID, JSON.stringify([blockSelectedData]))
+                } catch (err) {
+                    toast.error('LocalStorage Error, Out of space!', { position: toast.POSITION.TOP_RIGHT })
+                }
+
+            }
+        }
+    }
+
     // -- view state controllers --//
     // myBlocksView, txView, latestBlocksView
     const latestBlocksViewSelect = () => setView('latestBlocksView');
@@ -166,30 +188,6 @@ const App = () => {
         setUserViewBlocksHistory(userViewCache);
         setLoadingTxViewData(false);
         setView('myBlocksView');
-    }
-    const storeUserBlocksViewed = (blockSelectedData)=> {
-        // handle caching of blocks viewed by a given user
-        if (isUserLoggedIn && view === 'latestBlocksView') {
-            let userViewCache = localStorage.getItem(userDataState.userID) || false;
-            if (userViewCache) {
-                userViewCache = JSON.parse(userViewCache)
-                console.log({ msg: 'block viewed', userViewCache })
-
-                // check if user already viewed block
-                if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
-                localStorage.setItem(userDataState.userID, JSON.stringify(userViewCache))
-                console.log({ msg: 'block viewed', userViewCache,blockSelectedData })
-
-            } else {
-                try {
-                    localStorage.setItem(userDataState.userID, JSON.stringify([blockSelectedData]))
-                    console.log({ msg: 'fire', blockSelectedData})
-                } catch (err) {
-                    toast.error('LocalStorage Error, Out of space!', { position: toast.POSITION.TOP_RIGHT })
-                }
-
-            }
-        }
     }
     const txViewSelect = async (blockSelected) => {
 
@@ -207,7 +205,7 @@ const App = () => {
             blockSelectedData = latestBlocks.find(data => data.block === blockSelected);
         }
 
-        storeUserBlocksViewed(blockSelectedData)
+        storeBlocksViewedHandler(blockSelectedData)
 
         setTxViewBlockSelectedData(blockSelectedData);
         setLoadingTxViewData(false)
