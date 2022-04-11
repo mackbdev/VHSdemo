@@ -3,3 +3,7 @@ a{
     width: 100%;
     cursor: pointer; 
 }
+
+.Toastify__toast-container {
+    --toastify-toast-width: 300px;
+}

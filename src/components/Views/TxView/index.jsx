@@ -20,9 +20,7 @@ const TxView = ({ props, animations }) => {
             <DivContainer containerClass={{ class: 'txlistcontain' }} >
                 <DivContainer containerClass={{ class: 'blocktxcontain' }}>
                     <DivContainer containerClass={{ class: 'blocktitlescontain' }}>
-                        <a href={`${etherscanLinks.block}/${blockSelected}`} >
                             <TitleHeading props={{ headerSize: 3, title: `Block #${blockSelected} (${blockSelectedAllTxLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
-                        </a>
                         <TitleHeading onClick={() => loadBlockRewardData(txViewBlockSelectedData)} props={{ headerSize: 4, title: `Click Here to See Block Reward (Uncle not Included)` }} titleClass={{ class: 'blockrewardtitleheading' }} />
                         <TitleHeading props={{ headerSize: 3, title: `Showing Transactions Only Sending ETH (${blockSelectedTxSendingEthLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
                     </DivContainer>
