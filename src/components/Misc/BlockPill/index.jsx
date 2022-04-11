@@ -2,17 +2,16 @@ import { AnimatePresence, motion } from 'framer-motion'
 import DivContainer from '../../Containers/DivContainer'
 import TitleHeading from '../TitleHeading'
 
-const BlockPill = ({ props, animations }) => {
+const BlockPill = ({ props, animations, pillClass }) => {
     const { parentProps, data } = { ...props };
     const { block, blockTime, gasBurned, blockTotalEthSent, blockTxSendingEthLength, blockTxsLength } = { ...data };
     const { txViewSelect, priceData, fixedNoRound2 } = { ...parentProps };
-
     let price = priceData.price;
     let blockTotalEthSentUSD = fixedNoRound2(Number(blockTotalEthSent) * price).toLocaleString("en-US");
 
     return (
         <AnimatePresence>
-            <motion.div {...animations} onClick={() => txViewSelect(block)} className="pillcontain">
+            <motion.div {...animations} onClick={() => txViewSelect(block)} className={pillClass.class}>
                 <DivContainer containerClass={{ class: 'blockleftcontain' }}>
                     <TitleHeading props={{ headerSize: 4, title: `Block #${block}` }} titleClass={{ class: 'pilltitleheading' }} />
                 </DivContainer>

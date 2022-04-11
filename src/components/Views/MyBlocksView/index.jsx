@@ -20,7 +20,7 @@ const MyBlocksView = ({ props, animations }) => {
                 <DivContainer containerClass={{ class: 'listcontain' }}>
                     {!userViewBlocksHistory ? <LoadingBar props={{ msg: 'No History....Browse Some Blocks!' }} /> : userViewBlocksHistory.map((data) => {
                         let childProps = { parentProps: props, data };
-                        return <BlockPill key={data.block} props={childProps} animations={animations} />
+                        return <BlockPill key={data.block} props={childProps} animations={animations} pillClass={{class:'txpillcontain'}}/>
                     })}
                 </DivContainer>
             </DivContainer>

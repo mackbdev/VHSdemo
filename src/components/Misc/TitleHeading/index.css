@@ -3,6 +3,7 @@
   margin-bottom: 2.5px;
   text-align: center;
   text-decoration: underline;
+  font-size: 16px;
 }
 
 .minititleheading {
@@ -17,7 +18,7 @@
 .blocktitleheading {
   margin-top: 0px;
   margin-bottom: 8px;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
 }
 
@@ -76,7 +77,7 @@
 }
 
 .blockrewardtitleheading:hover {
-  color: #74bbc1;
+  color: #64d4dfd2;
   text-shadow: 1px 1px 15px rgba(188, 5, 213, 0.48);
 }
 

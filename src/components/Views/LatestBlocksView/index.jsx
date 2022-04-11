@@ -14,7 +14,7 @@ const LatestBlocksView = ({ props, animations }) => {
                     <LoadingBar props={{ msg: 'Loading Blocks Data....', showLoader: true }} /> :
                     latestBlocks.map((data) => {
                         let childProps = { parentProps: props, data };
-                        return <BlockPill key={data.block} props={childProps} animations={animations} />
+                        return <BlockPill key={data.block} props={childProps} animations={animations} pillClass={{class:'pillcontain'}}/>
                     })}
             </DivContainer>
         </DivContainer>
