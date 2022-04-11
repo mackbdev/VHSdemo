@@ -1,110 +1,44 @@
-# Latest 10 Blocks VHS Demo
+# Latest 10 Blocks VHS Demo - Express API
 
-This project was created with [Create React App](https://github.com/facebook/create-react-app).
+`Created an api to serve the data from the coreFunctions used in the main branch`
 
-`This project loads the 10 most recent blocks from the ethereum chain and displays curated data.`
+## How To
 
-## Key Features
+- Server defaults to port 5000, a .env file is needed to provide the websocket provider.
+    * Free one can be used from the staticVariables.js file in the main branch
+    * Available .env variables below
 
-- Fully decentralized using any ethereum rpc websocket, the goal was to use no 3rd party APIs.
 
-- Displays live price of ETH using the USDC pair reserve on uniswap.
-
-- From the 10 most recent blocks there is a total of all the transactions present, their total value, and the total gas burned for the 10 blocks. The amount data is multiplied against the price of ETH for an estimated USD value.
-
-- Blocks are displayed with: 
-    * Block Number
-    * Timestamp
-    * Total transactions
-    * Total transactions sending only ETH
-    * Total amount of ETH sent & total gas burned
-
-- Clicking on a block displays the transactions present in that block with details such as:
-    * Transaction hash
-    * Sender & Receiver
-    * Confirmations, 
-    * Total ETH sent
-    * Clicking various details will route to more information on Etherscan
-
-## Bonus Features
-
-- Live updates of the blocks in real time accompanied by a toast notifications
-
-- The mining rewards for a given block can be seen by clicking on the interactive located above transaction view of a given block.
-    * There is a good chance of rate limiting due to the live updates and calculations of block rewards if attempted to view.
-    * This is unique because all the transactions of a block have to be queried for their transaction receipt in order to get the amount of gas paid by all transactions.
-    * The formula for reward of a given block is the current static miner payout of 2 ETH + Gasfees paid - Gasfees burned + a portion of the uncle block if any are present. 
-    * Due to the fact uncle blocks cannot be queried in real time the number displayed excludes the uncle block values.
-
-- A toggle was added to either disable notifications that allows current blocks displayed to remain for browsing.
-    * Individual toggles for notifications and dashboard updates were added to customize realtime delivery.
-
-- Connecting/Logging in will store all blocks viewed by that user. A view was created to see the blocks you have visited/inspected (Click on My Blocks in the nav once logged in).
-
-- Metamask was implemented with user experiences like persistent login amongst page reloads & tracking account change.
-    * WalletConnect intergrated for users who do not have Metamask.
-
-## Folders
-```
-/jtest
-/src
-/public
 ```
 
-## Available Scripts
+PORT=
+PROVIDERWSS=
 
-In the project directory after installing all dependencies using ` npm i `, you can run:
+```
 
-### `npm start`
+## Endpoints
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- GET
+    * http://localhost:5000/api/getBlockReward 
+    * http://localhost:5000/api/getTxFee/:txHash
+    * http://localhost:5000/api/initBlocks/:latestCount
+    * http://localhost:5000/api/getLiveDexPrice/:routerContractAddress/:tokenInAddress/:tokenInName/:tokenInDecimals/:tokenOutAddress/:tokenOutName/:tokenOutDecimals
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- POST
+    * http://localhost:5000/api/getBlocksInfo
+    ```
+    {
+        "arrayOfBlocks": [12458,155452,148521]
+    }   
+    ```
 
-### `npm test`
+    * http://localhost:5000/api/getBlockReward
+    ```
+    {
+        "staticBlockReward": 2,
+        "blockData": {`a single block of filtered data from initBlocks endpoint`}
+    }
+    ```
 
-I do not have much experience testing React Apps.
+    
 
-List of Tests:
-
-- App
-- ToggleButton
-- LatestBlocksView
-- coreFunctions
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-Your app is ready to be deployed!
-
-## Issues/Fixes Needed
-
-- Latest version of create-react-app and web3 caused some time costly issues during development. I was able to find an open issue on GitHub in regards to this. The solution involves reconfiguring webpack using react-app-rewired as seen on the know issues located on this page [ChainSafe Github](https://github.com/ChainSafe/web3.js)\
-(./config-overrides.js contains the configs for react-app-rewired & ./src/polyfill.js was added for Buffer)
-
-- Listening to blocks updates in dev mode can cause rate limiting due to the fact that every hot reload spins up a new websocket connection, must manually close.
-
-- Connection to websocket can fail due to rate limiting , ideally it would be best to have multiple websocket sources for load balancing or a paid provider :)
-
-- ~~Issue calculating total ETH sent of latest 10 block in USD, didn't notice it as much, happens when the total eth sent for the past 10 blocks is more than 1000 ETH. Need to spend more time troubleshooting.~~
-
-- Transactions in the blocks are stored locally so the information such as confirmations are not accurate/realtime during display.
-
-- When a block reward is queried (bonus feature) all live updates are temporarily disabled.\
-limited to querying one block reward at a time and the block chosen has been restricted to 100tx minimum.
-    * Really slow, takes about (1 sec * number of TXs in block)
-    * The rate limit kicks in if there are around 250+ txs in a block (free websocket endpoint type problems)
-
-## Advanced Configuration
-
-- Free ethereum websocket endpoint provided, but you can have a better experience with a paid endpoint.
-    * Configurations to endpoint can be made in ./src/backend/staticVariables.js
-
-## Deployment
-- Build the final application by running `npm run build`
-- This application can be served locally by installing the Serve package globally and running\
-`serve ./build`

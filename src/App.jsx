@@ -153,7 +153,8 @@ const App = () => {
         setView('latestBlocksView')
     }
 
-    const storeBlocksViewedHandler = (blockSelectedData)=> {
+    // user to set logged in user blocks viewed to localstorage
+    const storeBlocksViewedHandler = (blockSelectedData) => {
         // handle caching of blocks viewed by a given user
         if (isUserLoggedIn && view === 'latestBlocksView') {
             let userViewCache = localStorage.getItem(userDataState.userID) || false;
@@ -162,7 +163,7 @@ const App = () => {
                 // check if user already viewed block
                 if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
                 localStorage.setItem(userDataState.userID, JSON.stringify(userViewCache))
-                console.log({ msg: 'block viewed', userViewCache,blockSelectedData })
+                //console.log({ msg: 'block viewed', userViewCache, blockSelectedData })
 
             } else {
                 try {
@@ -268,7 +269,6 @@ const App = () => {
         try {
             let getPriceData = await getLiveDexPrice(providerWSS, addresses.uniRouter, [addresses.usdc, addresses.weth], { tokenName: 'eth', tokenDecimals: 18 }, { tokenName: 'usdc', tokenDecimals: 6 })
             let getBlocksData = await initBlocks(providerWSS, latestCount);
-            //console.log({getBlocksData})
             setPriceData(getPriceData);
             setBlocksData(getBlocksData);
             setLoadingDashboardData(false);
@@ -354,7 +354,7 @@ const App = () => {
     const infoProps = { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 
     return (
-        
+
         <span data-testid='app'>
             <DivContainer containerClass={{ class: 'appcontain' }}>
                 <Nav props={navProps} />
