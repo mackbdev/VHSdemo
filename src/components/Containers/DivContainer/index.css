@@ -514,7 +514,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 95%;
+  width: 80%;
   height: 4em;
   padding: 10px 5px;
   margin-bottom: 10px;
@@ -615,7 +615,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 70%;
+  width: 80%;
   height: 52em;
   padding: 10px 10px 20px;
   -webkit-box-orient: vertical;
@@ -757,11 +757,11 @@
   }
 
   .txlistcontain {
-    width: 85%;
+    width: 80%;
   }
 
   .loadingbarcontain {
-    width: 85%;
+    width: 80%;
   }
 }
 
