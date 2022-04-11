@@ -364,7 +364,7 @@ const App = () => {
                         {!didCoreDataFail && <InfoBox props={infoProps} />}
                         {!didCoreDataFail && <Dashboard props={props} />}
                         {didCoreDataFail &&
-                            <DivContainer containerClass={{ class: 'loadingbarcontain' }}>
+                            <DivContainer containerClass={{ class: 'blockslistcontain' }}>
                                 <Loadingbar props={{ msg: 'Core Data Failed to Load....Please Try Again!', showLoader: false }} />
                             </DivContainer>
                         }
