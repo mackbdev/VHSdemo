@@ -85,6 +85,7 @@
   display: flex;
   width: 90%;
   height: 6%;
+  margin: 10px 0;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
