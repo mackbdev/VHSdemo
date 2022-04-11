@@ -105,9 +105,10 @@ export const getBlocksInfo = async (providerWSS, arrayOfBlocks) => {
     }
 }
 // load the data needed for app
-export const initBlocks = async (providerWSS, latestBlock, latestCount) => {
+export const initBlocks = async (providerWSS, latestCount) => {
     try {
         //pointer
+        let latestBlock = await getLatestBlock(providerWSS);
         let latestArray = countdown(latestBlock, latestCount);
         let latestBlocksInfo = await getBlocksInfo(providerWSS, latestArray);
         let totalGasBurned = 0;
@@ -147,7 +148,7 @@ export const initBlocks = async (providerWSS, latestBlock, latestCount) => {
         totalTxSendingEth = totalTxSendingEth.toLocaleString("en-US");
         totalValueOfTxSendingEth = fixedNoRound2(totalValueOfTxSendingEth);
         totalGasBurned = fixedNoRound2(totalGasBurned).toLocaleString("en-US");;
-        let data = { totalGasBurned, totalTx, totalTxSendingEth, totalValueOfTxSendingEth, latestBlocksInfo, latestBlocksFiltered }
+        let data = { totalGasBurned, totalTx, totalTxSendingEth, totalValueOfTxSendingEth, latestBlocksInfo, latestBlocksFiltered, latestBlock }
         return data
     } catch (err) {
         console.log({ err })

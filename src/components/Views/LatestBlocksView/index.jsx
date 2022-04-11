@@ -6,7 +6,7 @@ const LatestBlocksView = ({ props, animations }) => {
 
     const { loadingDashboardData, blocksData } = { ...props };
     let latestBlocks = blocksData.latestBlocksFiltered;
-    console.log({loadingDashboardData})
+
     return (
         
         <DivContainer containerClass={{ class: 'blockslistcontain' }}>

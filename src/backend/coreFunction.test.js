@@ -34,21 +34,21 @@ describe('Core Functions Test', () => {
         expect(txFee).toBeLessThanOrEqual(0.5)
     })
 
-    it('Expect array of blocks length equal to count + 1, counting down from the start input', async () => {
+    it('Expect array of blocks length equal to count + 1, counting down from the latest block', async () => {
         let count = 3;
-        let latestBlock = await getLatestBlock(providers.ethWSS);
-        let data = await initBlocks(providers.ethWSS, latestBlock, count);
-        let arrayOfBlocks = data.latestBlocksInfo
+        let data = await initBlocks(providers.ethWSS, count);
+        let latestBlock = data.latestBlock;
+        let arrayOfBlocks = data.latestBlocksInfo;
         let lengthOfBlocksArray = arrayOfBlocks.length;
         let firstBlockOfArray = arrayOfBlocks[0].number;
         expect(firstBlockOfArray).toEqual(latestBlock)
         expect(lengthOfBlocksArray).toEqual(count + 1)
-    })    
+        // timeout can occur, added large time interval so test can complete
+    }, 500000)    
     
     it('Expect block reward to be equal to or greater than the static block reward', async () => {
         let count = 3;
-        let latestBlock = await getLatestBlock(providers.ethWSS);
-        let data = await initBlocks(providers.ethWSS, latestBlock, count);
+        let data = await initBlocks(providers.ethWSS, count);
         let blockData = data.latestBlocksFiltered;
         // becuase of rate limit
         blockData = blockData.find(data => data.blockTxsLength < 100);
