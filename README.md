@@ -71,6 +71,7 @@ List of Tests:
 
 - App
 - ToggleButton
+- LatestBlocksView
 - coreFunctions
 
 ### `npm run build`

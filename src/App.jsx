@@ -355,6 +355,7 @@ const App = () => {
     const infoProps = { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 
     return (
+        
         <span data-testid='app'>
             <DivContainer containerClass={{ class: 'appcontain' }}>
                 <Nav props={navProps} />

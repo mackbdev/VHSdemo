@@ -3,7 +3,7 @@ import App from './App';
 
 describe('App Component', () => {
 
-    it('rendered', () => {
+    it('Rendered', () => {
         const { getByTestId } = render(<App />)
         const app = getByTestId('app')
         expect(app).toBeTruthy()
