@@ -1,11 +1,14 @@
 # Latest 10 Blocks VHS Demo - Express API
 
-`Created an api to serve the data from the coreFunctions used in the main branch`
+`Created an api to serve the data from the coreFunctions used in the main branch.`
+
+`Standalone it is *not* connected to the React app.`
 
 ## How To
 
 - Server defaults to port 5000, a .env file is needed to provide the websocket provider.
-    * Free one can be used from the staticVariables.js file in the main branch
+    * In the server run ` npm i ` to install then ` npm start ` to run
+    * Free websocket can be used from the staticVariables.js file in the main branch
     * Available .env variables below
 
 
