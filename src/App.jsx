@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ethers } from 'ethers';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import Nav from './components/Core/Nav'
-import DivContainer from './components/Containers/DivContainer'
 import Dashboard from './components/Core/Dashboard'
-import InfoBox from './components/Core/InfoBox'
-import Loadingbar from './components/Misc/LoadingBar';
-import TitleHeading from './components/Misc/TitleHeading';
 import { addresses, providers, staticData, evmChains, _infuraID, etherscanLinks } from './backend/staticVariables'
 import { getVanity, fixedNoRound2, getLiveDexPrice, getLatestBlock, getTxFee, getBlockReward, initBlocks } from './backend/coreFunctions'
 import 'react-toastify/dist/ReactToastify.css';
+import AppLayout from './components/Layouts/AppLayout';
+import ErrorPage from './components/Pages/ErrorPage';
 
 // -- app component -- //
 const App = () => {
@@ -152,9 +150,9 @@ const App = () => {
         setLoadingUserLogin(false)
         setView('latestBlocksView')
     }
-    
+
     // user to set logged in user blocks viewed to localstorage
-    const storeBlocksViewedHandler = (blockSelectedData)=> {
+    const storeBlocksViewedHandler = (blockSelectedData) => {
         // handle caching of blocks viewed by a given user
         if (isUserLoggedIn && view === 'latestBlocksView') {
             let userViewCache = localStorage.getItem(userDataState.userID) || false;
@@ -281,106 +279,25 @@ const App = () => {
         }
     }
 
-    // -- useEffects --//
-    useLayoutEffect(() => {
-
-        getAppData(providers.ethWSS, staticData.latestCount)
-
-        // no metamask on safari
-        let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-        if (typeof window.performance.getEntriesByType !== 'undefined' && !isSafari) {
-            // listen for page reload & log back in if cached
-            if (String(window.performance.getEntriesByType("navigation")[0].type) === 'reload') {
-                web3Login()
-            }
-        }
-
-    }, [])
-
-    // listen for metamask events
-    useEffect(() => {
-
-        if (typeof window.ethereum !== 'undefined') {
-            window.ethereum.removeListener("accountsChanged", () => { })
-            window.ethereum.removeListener("chainChanged", () => { })
-            window.ethereum.on('chainChanged', (chainID) => {
-                if (chainID !== evmChains.eth) web3Logout()
-                console.log('chainChanged', chainID);
-            });
-            window.ethereum.on('accountsChanged', (accounts) => {
-                window.location.reload()
-            });
-        }
-
-    }, [userDataState])
-
-    // live update for blocks
-    useEffect(() => {
-
-        // start new socket connection if none exist
-        if (currentProvider.current === false) {
-            try {
-                let publicProvider = new ethers.providers.WebSocketProvider(providers.ethWSS);
-                currentProvider.current = publicProvider;
-            } catch (err) {
-                err = { msg: 'Websocket failed connection with provider!', err }
-                console.log({ err })
-                toast.error(err.msg)
-            }
-        }
-
-        // disable live updates
-        if ((!isBlockNotificationLive.current && !isDashboardUpdateLive.current) || !enableLiveUpdates.current) {
-            currentProvider.current.removeAllListeners('block')
-            isProviderListening.current = false;
-            //console.log('disable listeners check', currentProvider.current.removeAllListeners('block'))
-            return
-        }
-        //console.log('before listner starts count', currentProvider.current.listeners())
-        if (isProviderListening.current) return
-        currentProvider.current.on('block', (block) => {
-            if (isBlockNotificationLive.current) toast(`Latest Block: #${block}`, { position: toast.POSITION.TOP_RIGHT })
-            if (isDashboardUpdateLive.current) getAppData(providers.ethWSS, staticData.latestCount)
-            isProviderListening.current = true;
-            console.log({ msg: 'latest', block })
-        });
-        //console.log('after listener starts count', currentProvider.current.listeners())
-    }, [toggleLiveNotifyUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveUpdatesState])
-
-    const props = { userViewBlocksHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers };
+    const props = { userViewBlocksHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive,isDashboardUpdateLive, enableLiveUpdates, getAppData, web3Login, web3Logout, userDataState, didCoreDataFail };
 
     const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userDataState, myBlocksViewSelect, setView };
 
     const infoProps = { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 
+    const layoutProps = {didCoreDataFail}
+
     return (
-        
+
         <span data-testid='app'>
-            <DivContainer containerClass={{ class: 'appcontain' }}>
-                <Nav props={navProps} />
-                <DivContainer containerClass={{ class: 'sectioncontain' }}>
-                    <DivContainer containerClass={{ class: 'dashcontain' }}>
-                        {/* load try again later page if data cannot be pulled successfully */}
-                        {!didCoreDataFail && <InfoBox props={infoProps} />}
-                        {!didCoreDataFail && <Dashboard props={props} />}
-                        {didCoreDataFail &&
-                            <DivContainer containerClass={{ class: 'blockslistcontain' }}>
-                                <Loadingbar props={{ msg: 'Core Data Failed to Load....Please Try Again!', showLoader: false }} />
-                            </DivContainer>
-                        }
-                        {/* mobile view placeholder */}
-                        <DivContainer containerClass={{ class: 'mobiledisclaimercontain' }}>
-                            <DivContainer containerClass={{ class: 'minititlecontain' }}>
-                                <TitleHeading props={{ headerSize: 6, title: `Mobile Not Ready :)` }} titleClass={{ class: 'discalimertitleheading' }} />
-                            </DivContainer>
-                        </DivContainer>
-                    </DivContainer>
-                </DivContainer>
-                <DivContainer containerClass={{ class: 'footercontain' }} />
-                {/* container used to display toast notifications */}
-                <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-            </DivContainer>
+            <Router>
+                <AppLayout props={layoutProps} navProps={navProps} infoProps={infoProps}>
+                    <Routes>
+                        <Route path="/" element={<Dashboard props={props} />} />
+                        <Route path="*" element={<ErrorPage props={{message:'404! Where are you?'}} />} />
+                    </Routes>
+                </AppLayout>
+            </Router>
         </span>
 
     );
