@@ -19,7 +19,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .navcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -90,7 +89,6 @@
   -ms-flex-align: start;
   align-items: flex-start;
 }
-
 .rightcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -112,12 +110,10 @@
   -ms-flex-align: end;
   align-items: flex-end;
 }
-
 .logocontain {
   width: 50%;
   height: 100%;
 }
-
 .sectioncontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -147,7 +143,6 @@
     #87bcd3
   );
 }
-
 .dashcontain {
   position: absolute;
   top: 10%;
@@ -174,7 +169,6 @@
   border-radius: 0px;
   background-color: transparent;
 }
-
 .blockslistcontain {
   position: static;
   top: 133px;
@@ -203,7 +197,6 @@
   background-color: #fff;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
 }
-
 .topcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -226,7 +219,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .bottomcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -249,7 +241,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .titlecontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -293,7 +284,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .minititlecontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -317,7 +307,6 @@
   align-items: center;
   text-align: center;
 }
-
 .blockpillcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -341,11 +330,9 @@
   box-shadow: inset 0 0 5px 0 #cc97d3;
   cursor: pointer;
 }
-
 .blockpillcontain:hover {
   box-shadow: inset 0 0 5px 0 #71bbdb;
 }
-
 .blockcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -369,7 +356,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .blockrightcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -393,7 +379,6 @@
   align-items: center;
   border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
-
 .blockleftcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -417,7 +402,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .blocktxcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -442,7 +426,6 @@
   align-items: center;
   border-radius: 0px;
 }
-
 .listcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -464,7 +447,6 @@
   align-items: center;
   justify-content: flex-start;
 }
-
 .blocktitlescontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -486,7 +468,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .pillcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -503,12 +484,9 @@
   box-shadow: inset 0 0 5px 0 #cc97d3;
   cursor: pointer;
 }
-
 .pillcontain:hover {
   box-shadow: inset 0 0 5px 0 #71bbdb;
 }
-
-
 .txpillcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -526,11 +504,9 @@
   box-shadow: inset 0 0 5px 0 #cc97d3;
   cursor: pointer;
 }
-
 .txpillcontain:hover {
   box-shadow: inset 0 0 5px 0 #71bbdb;
 }
-
 .txlistcontain {
   position: static;
   top: 133px;
@@ -558,7 +534,6 @@
   background-color: #fff;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
 }
-
 .mobiledisclaimercontain {
   position: static;
   top: 133px;
@@ -584,7 +559,6 @@
   background-color: #fff;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
 }
-
 .rightnavcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -607,7 +581,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .myblockslistcontain {
   position: static;
   top: 133px;
@@ -635,7 +608,6 @@
   background-color: #fff;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
 }
-
 .myblockscontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -660,7 +632,6 @@
   align-items: center;
   border-radius: 0px;
 }
-
 .togglebuttoncontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -682,7 +653,6 @@
   -ms-flex-align: center;
   align-items: center;
 }
-
 .allpillcontain {
   display: -webkit-box;
   display: -webkit-flex;
@@ -702,7 +672,6 @@
   align-items: center;
   justify-content: space-evenly;
 }
-
 .loadingbarcontain {
   position: static;
   left: 0%;
@@ -731,7 +700,6 @@
   background-color: #fff;
   border-radius: 20px;
 }
-
 .footercontain {
   position: absolute;
   left: 0%;
@@ -742,7 +710,6 @@
   height: 5em;
   background-image: linear-gradient(135deg, #e6acee, #87bcd3 98%, #75aec7);
 }
-
 @media screen and (min-width: 1920px) {
   .navcontain {
     width: 50%;
@@ -764,7 +731,6 @@
     width: 80%;
   }
 }
-
 @media screen and (max-width: 991px) {
   .infocontain {
     width: 90%;
@@ -808,7 +774,6 @@
     padding-left: 10px;
   }
 }
-
 @media screen and (max-width: 767px) {
   .navcontain {
     width: 100%;
@@ -831,7 +796,6 @@
     height: 90%;
   }
 }
-
 @media screen and (max-width: 479px) {
   .infocontain {
     height: 20em;

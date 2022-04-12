@@ -4,10 +4,12 @@
 
 ## How To
 
-- After ` npm i ` enter command ` npm run startAll `, the server and frontEnd will start concurrently.
+- After ` npm i ` enter command ` npm start `, the server and frontEnd will start concurrently.
+    * ` npm run react ` launch frontEnd
+    * ` npm run server` launch server
 
 - Server defaults to port 5000, a .env file is needed to provide the websocket provider.
-    * Free websocket can be used from the staticVariables.js file in the main branch
+    * Free websocket can be used in the staticVariables.js file.
     * Available .env variables below
 
 ```

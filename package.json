@@ -26,13 +26,13 @@
     "web3modal": "^1.9.6"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "concurrently \"npm run server\" \"npm run react\"",
+    "react": "react-app-rewired start",
     "server": "nodemon ./server/index",
-    "startAll": "concurrently \"npm run server\" \"npm start\"",
-    "serverTest": "jest ./server/core/",
-    "startOriginal": "react-scripts start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --coverage",
+    "serverTest": "jest ./server/core/",
+    "startOriginal": "react-scripts start",
     "eject": "react-scripts eject",
     "webpack": "webpack --config webpack.config.js"
   },
