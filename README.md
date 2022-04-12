@@ -4,17 +4,61 @@
 
 ## How To
 
-- After ` npm i ` run ` npm start `, the server and frontEnd will start concurrently.
+- After ` npm i ` enter command ` npm run startAll `, the server and frontEnd will start concurrently.
+
+- Server defaults to port 5000, a .env file is needed to provide the websocket provider.
+    * Free websocket can be used from the staticVariables.js file in the main branch
+    * Available .env variables below
+
+```
+
+SERVERPORT=
+PROVIDERWSS=
+
+```
+
+## Endpoints
+
+- GET
+    * http://localhost:5000/api/getBlockReward 
+    * http://localhost:5000/api/getTxFee/:txHash
+    * http://localhost:5000/api/initBlocks/:latestCount
+    * http://localhost:5000/api/getLiveDexPrice/:routerContractAddress/:tokenInAddress/:tokenInName/:tokenInDecimals/:tokenOutAddress/:tokenOutName/:tokenOutDecimals
+
+- POST
+    * http://localhost:5000/api/getBlocksInfo
+    ```
+    {
+        "arrayOfBlocks": [12458,155452,148521]
+    }   
+    ```
+
+    * http://localhost:5000/api/getBlockReward
+    ```
+    {
+        "staticBlockReward": 2,
+        "blockData": {`a single block of filtered data from initBlocks endpoint`}
+    }
+    ```
+
+## Tests
+
+- ` npm test ` for React app
+- ` npm run serverTest ` for server core functions
+
 -----
-# Latest 10 Blocks VHS Demo - Optimize
+
+~# Latest 10 Blocks VHS Demo - Optimize
 
 `The main branch of this project is in a raw form and React Router is used to optimize this.`
 
 ## How To
 
-- Same instructions as main branch
+- Same instructions as main branch~
+
 -----
-# Latest 10 Blocks VHS Demo - Express API
+
+~# Latest 10 Blocks VHS Demo - Express API
 
 `Created an api to serve the data from the coreFunctions used in the main branch.`
 
@@ -57,7 +101,6 @@ PROVIDERWSS=
         "staticBlockReward": 2,
         "blockData": {`a single block of filtered data from initBlocks endpoint`}
     }
-    ```
-
+    ```~
     
 

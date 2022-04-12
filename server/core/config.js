@@ -5,14 +5,15 @@ const assert = require('assert');
 dotenv.config();
 
 const {
-	PORT,
+	SERVERPORT,
 	PROVIDERWSS
 } = process.env;
 
-assert(PORT, 'Port is required!');
+// removed assertion so port can set to default
+//assert(PORT, 'Port is required!');
 assert(PROVIDERWSS, 'Websocket provider is required!');
 
 module.exports = {
-	port: PORT,
+	port: SERVERPORT,
 	providerWSS: PROVIDERWSS
 }

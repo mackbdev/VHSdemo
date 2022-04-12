@@ -148,7 +148,7 @@ const initBlocks = async (providerWSS, latestCount) => {
         totalTxSendingEth = totalTxSendingEth.toLocaleString("en-US");
         totalValueOfTxSendingEth = fixedNoRound2(totalValueOfTxSendingEth);
         totalGasBurned = fixedNoRound2(totalGasBurned).toLocaleString("en-US");;
-        let data = { totalGasBurned, totalTx, totalTxSendingEth, totalValueOfTxSendingEth, latestBlocksInfo, latestBlocksFiltered }
+        let data = { totalGasBurned, totalTx, totalTxSendingEth, totalValueOfTxSendingEth, latestBlocksInfo, latestBlocksFiltered, latestBlock }
         return data
     } catch (err) {
         console.log({ err })
@@ -159,9 +159,11 @@ const initBlocks = async (providerWSS, latestCount) => {
 module.exports = {
     getTxFee: getTxFee,
 	getVanity: getVanity,
+    countdown: countdown,
     initBlocks: initBlocks,
+    fixedNoRound2: fixedNoRound2,
     getBlocksInfo: getBlocksInfo,
     getLatestBlock: getLatestBlock,
     getBlockReward: getBlockReward,
-    getLiveDexPrice: getLiveDexPrice,
+    getLiveDexPrice: getLiveDexPrice
 }

@@ -3,21 +3,25 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import { useIsPresent } from 'framer-motion'
+import Axios from "axios";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { addresses, providers, staticData, evmChains, _infuraID, etherscanLinks } from './backend/staticVariables'
-import { getVanity, fixedNoRound2, getLiveDexPrice, getBlockReward, initBlocks } from './backend/coreFunctions'
+import { addresses, staticData, evmChains, _infuraID, etherscanLinks } from './backend/staticVariables'
+import { getVanity, fixedNoRound2 } from './backend/helperFunctions'
 import 'react-toastify/dist/ReactToastify.css';
 import AppLayout from './components/Layouts/AppLayout';
 import ErrorPage from './components/Pages/ErrorPage';
 import Dashboard from './components/Pages/Dashboard'
 import LatestBlocksView from './components/Views/LatestBlocksView'
-const MyBlocksView = React.lazy(() => import('./components/Views/MyBlocksView'));
-const TxView = React.lazy(() => import('./components/Views/TxView'));
+import MyBlocksView from './components/Views/MyBlocksView';
+import TxView from './components/Views/TxView';
 
 // -- app component -- //
 const App = () => {
 
+    // API server
+    const server = 'http://localhost:5000';
+    
     // set user state
     const [userDataState, setUserDataState] = useState(false);
     const [userViewBlocksHistory, setUserViewBlocksHistory] = useState(false);
@@ -27,7 +31,6 @@ const App = () => {
     // set data state
     const [priceData, setPriceData] = useState('....');
     const [blocksData, setBlocksData] = useState('....');
-    const [selectedBlockRewardData, setSelectedBlockRewardData] = useState(false);
 
     // live update settings, use refs to persist data between renders
     const currentProvider = useRef(false);
@@ -153,6 +156,7 @@ const App = () => {
     }
 
     //-- handlers --//
+
     // try to set data give to localStorage
     const tryToCacheBlockViewed = (userID, cacheData) => {
         try {
@@ -194,26 +198,61 @@ const App = () => {
         setLoadingTxViewData(false);
     }
     const txViewSelect = async (blockSelected, isMyBlocksView) => {
-        
+
         if (blockSelected === false) return
 
         let blockSelectedData;
 
         // show transactions for user blocks stored
-            if (isMyBlocksView) {
-                blockSelectedData = localStorage.getItem(userDataState.userID) || false;
-                blockSelectedData = blockSelectedData !== false ? JSON.parse(blockSelectedData) : blockSelectedData
-                blockSelectedData = blockSelectedData.find(data => data.block === blockSelected);
-            } else {
-                let latestBlocks = blocksData.latestBlocksFiltered;
-                blockSelectedData = latestBlocks.find(data => data.block === blockSelected);
-                if (isUserLoggedIn) storeBlocksViewedHandler(blockSelectedData)
-            }
+        if (isMyBlocksView) {
+            blockSelectedData = localStorage.getItem(userDataState.userID) || false;
+            blockSelectedData = blockSelectedData !== false ? JSON.parse(blockSelectedData) : blockSelectedData
+            blockSelectedData = blockSelectedData.find(data => data.block === blockSelected);
+        } else {
+            let latestBlocks = blocksData.latestBlocksFiltered;
+            blockSelectedData = latestBlocks.find(data => data.block === blockSelected);
+            if (isUserLoggedIn) storeBlocksViewedHandler(blockSelectedData)
+        }
 
         setTxViewBlockSelectedData(blockSelectedData);
         setLoadingTxViewData(false)
 
     }
+
+    // Axios Requests
+    const getPriceData = async () => {
+        //let getPriceData = await getLiveDexPrice(providerWSS, addresses.uniRouter, [addresses.usdc, addresses.weth], { tokenName: 'eth', tokenDecimals: 18 }, { tokenName: 'usdc', tokenDecimals: 6 })
+        Axios.get(`${server}/api/getLiveDexPrice/${addresses.uniRouter}/${addresses.weth}/eth/18/${addresses.usdc}/usdc/6`).then((res) => {
+            let data = res.data;
+            let result = data.result;
+            setPriceData(result);
+        })
+    }
+    const getBlocksData = async (latestCount) => {
+        //let getBlocksData = await initBlocks(providerWSS, latestCount);
+        Axios.get(`${server}/api/initBlocks/${latestCount}`).then((res) => {
+            let data = res.data;
+            let result = data.result;
+            setBlocksData(result);
+            setLoadingDashboardData(false);
+        })
+    }
+    const getBlockReward = async (block, blockSelected, staticBlockReward) => {
+        //let blockRewardData = await getBlockReward(providers.ethWSS, blockSelected, staticData.blockReward);
+        await Axios.post(`${server}/api/getBlockReward`,
+            {
+                "staticBlockReward": staticBlockReward,
+                "blockData": blockSelected
+            }
+        ).then((res) => {
+            let data = res.data;
+            let result = data.result;
+            let blockRewardData = result
+            toast.success(`Block: #${block} ~ Reward: ${blockRewardData} ETH ~ Value: $${fixedNoRound2(priceData.price * blockRewardData)}`)
+            return blockRewardData
+        })
+    }
+
 
     // -- Gather data -- //
     // load block reward, uncle block not inlcuded
@@ -224,36 +263,39 @@ const App = () => {
         setLoadingBlockRewardData(true);
         let block = blockSelected.block;
         let blockTxsLength = blockSelected.blockTxsLength;
+        let staticBlockReward = staticData.blockReward;
         let rewardPromiseFail;
-        // used for toast notification
+        if (blockTxsLength < 1) {
+            toast.success(`Block: #${block} ~ Reward: ${staticBlockReward} ETH ~ Value: $${fixedNoRound2(priceData.price * staticBlockReward)}`);
+            setLoadingBlockRewardData(false);
+            return
+        }
+
+        // used for toast promise notification
         const rewardPromise = new Promise(async (resolve, reject) => {
 
             // disable all live updates due to rate limiting that may occur when collecting total tx fees from a given block
             let previousLiveUpdatestate = enableLiveUpdates.current;
             if (enableLiveUpdates.current) toggleLiveUpdates();
 
-            // wait 1 sec per tx loaded if no resolve by then websocket hit rate limit, used to throw toast error
+            // wait 2 sec per tx loaded if no resolve by then websocket hit rate limit, used to throw toast error
             rewardPromiseFail = new Promise((resolve, reject) => {
-                let waitTime = blockTxsLength * 1000;
+                let waitTime = blockTxsLength * 2000;
                 setTimeout(() => {
                     setLoadingBlockRewardData(false)
                     reject(console.log({ msg: 'timeout activated loadblock reward' }))
                 }, waitTime);
             });
 
-            // get block reward for block selected 
-            let blockRewardData = await getBlockReward(providers.ethWSS, blockSelected, staticData.blockReward);
+            await getBlockReward(block,blockSelected,staticBlockReward)
 
             // restore user toggleLiveUpdatesState state incase it was enabled
             if (previousLiveUpdatestate) toggleLiveUpdates();
-            setSelectedBlockRewardData({ block, blockRewardData });
-            // notify block reward data upon success
-            let resolveCallback = () => {
-                setLoadingBlockRewardData(false)
-                toast.success(`Block: #${block} ~ Reward: ${blockRewardData} ETH ~ Value: $${fixedNoRound2(priceData.price * blockRewardData)}`)
-            }
-            resolve(resolveCallback());
+            console.log({previousLiveUpdatestate})
+            
+            resolve(setLoadingBlockRewardData(false));
             reject(setLoadingBlockRewardData(false));
+
         });
 
         // if timeout resolves before data loaded, show error notification 
@@ -264,14 +306,12 @@ const App = () => {
         });
 
     }
+
     // load init data
-    const getAppData = async (providerWSS, latestCount) => {
+    const loadAppData = async (latestCount) => {
         try {
-            let getPriceData = await getLiveDexPrice(providerWSS, addresses.uniRouter, [addresses.usdc, addresses.weth], { tokenName: 'eth', tokenDecimals: 18 }, { tokenName: 'usdc', tokenDecimals: 6 })
-            let getBlocksData = await initBlocks(providerWSS, latestCount);
-            setPriceData(getPriceData);
-            setBlocksData(getBlocksData);
-            setLoadingDashboardData(false);
+            await getPriceData()
+            await getBlocksData(latestCount);
             setDidCoreDataFail(false)
         } catch (err) {
             console.log({ err })
@@ -280,7 +320,7 @@ const App = () => {
         }
     }
 
-    const props = { userViewBlocksHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, getAppData, web3Login, web3Logout, userDataState, didCoreDataFail };
+    const props = { userViewBlocksHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, txViewSelect, loadBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, loadAppData, web3Login, web3Logout, userDataState, didCoreDataFail };
 
     const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userDataState, myBlocksViewSelect };
 

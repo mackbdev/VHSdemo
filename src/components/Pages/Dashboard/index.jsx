@@ -4,19 +4,19 @@ import { Outlet } from 'react-router-dom';
 import { providers, staticData, evmChains } from '../../../backend/staticVariables'
 
 // toggle between views
-const Dashboard = ({ props, animations }) => {
+const Dashboard = ({ props }) => {
 
-    const { toggleLiveUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, web3Login, web3Logout, userDataState, getAppData, didCoreDataFail } = { ...props }
+    const { toggleLiveUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, web3Login, web3Logout, userDataState, loadAppData, didCoreDataFail } = { ...props }
+
     // -- useEffects --//
     useLayoutEffect(() => {
 
-        getAppData(providers.ethWSS, staticData.latestCount)
+        loadAppData(staticData.latestCount)
 
         // no metamask on safari
         let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
+        // listen for page reload & log back in if cached
         if (typeof window.performance.getEntriesByType !== 'undefined' && !isSafari) {
-            // listen for page reload & log back in if cached
             if (String(window.performance.getEntriesByType("navigation")[0].type) === 'reload') {
                 web3Login()
             }
@@ -70,7 +70,7 @@ const Dashboard = ({ props, animations }) => {
         if (isProviderListening.current) return
         currentProvider.current.on('block', (block) => {
             if (isBlockNotificationLive.current) toast(`Latest Block: #${block}`, { position: toast.POSITION.TOP_RIGHT })
-            if (isDashboardUpdateLive.current) getAppData(providers.ethWSS, staticData.latestCount)
+            if (isDashboardUpdateLive.current) loadAppData(staticData.latestCount)
             isProviderListening.current = true;
             console.log({ msg: 'latest', block })
         });

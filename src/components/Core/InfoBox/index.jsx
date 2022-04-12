@@ -6,15 +6,15 @@ import ToggleButton from '../../Buttons/ToggleButton'
 const InfoBox = ({ props }) => {
 
     const { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState } = { ...props };
-    let price = priceData.price;
-    let priceString = priceData.priceString || '.....';
-    let totalTx = blocksData.totalTx || '.....';
-    let totalValueOfTxSendingEth = blocksData.totalValueOfTxSendingEth || '....';
+    let price = priceData?.price || 0;
+    let priceString = priceData?.priceString || '.....';
+    let totalTx = blocksData?.totalTx || '.....';
+    let totalGasBurned = blocksData?.totalGasBurned || '....';
+    let totalValueOfTxSendingEth = blocksData?.totalValueOfTxSendingEth || '....';
     let totalValueOfTxSendingEthUSD = (Number(totalValueOfTxSendingEth) * (price));
     totalValueOfTxSendingEth = totalValueOfTxSendingEth.toLocaleString("en-US");
     totalValueOfTxSendingEthUSD = totalValueOfTxSendingEthUSD.toLocaleString("en-US");
     totalValueOfTxSendingEthUSD = totalValueOfTxSendingEthUSD === 'NaN' ? 0 : totalValueOfTxSendingEthUSD;
-    let totalGasBurned = blocksData.totalGasBurned || '....';
     let totalGasBurnedUSD = (Number(totalGasBurned) * (price)).toLocaleString("en-US");
     totalGasBurnedUSD = totalGasBurnedUSD === 'NaN' ? 0 : totalGasBurnedUSD;
     let toggleButtons = [
