@@ -269,7 +269,6 @@ const App = () => {
         try {
             let getPriceData = await getLiveDexPrice(providerWSS, addresses.uniRouter, [addresses.usdc, addresses.weth], { tokenName: 'eth', tokenDecimals: 18 }, { tokenName: 'usdc', tokenDecimals: 6 })
             let getBlocksData = await initBlocks(providerWSS, latestCount);
-            //console.log({getBlocksData})
             setPriceData(getPriceData);
             setBlocksData(getBlocksData);
             setLoadingDashboardData(false);
