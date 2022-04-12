@@ -4,10 +4,12 @@ import BlockPill from '../../Misc/BlockPill'
 
 const LatestBlocksView = ({ props, animations }) => {
 
-    const { loadingDashboardData, blocksData} = { ...props };
+    const { loadingDashboardData, blocksData, txViewSelect, priceData, fixedNoRound2 } = { ...props };
+    const blockPillProps = { txViewSelect, priceData, fixedNoRound2 };
+    
     let latestBlocks = blocksData?.latestBlocksFiltered || [];
     let isBlocksLoaded = latestBlocks.length > 0;
-    console.log({isBlocksLoaded})
+
     return (
         
         <DivContainer containerClass={{ class: 'blockslistcontain' }}>
@@ -15,7 +17,7 @@ const LatestBlocksView = ({ props, animations }) => {
                 {loadingDashboardData && !isBlocksLoaded ?
                     <LoadingBar props={{ msg: 'Loading Blocks Data....', showLoader: true }} /> :
                     latestBlocks.map((data) => {
-                        let childProps = { parentProps: props, data };
+                        let childProps = { parentProps: blockPillProps, data };
                         return <BlockPill key={data.block} props={childProps} animations={animations} pillClass={{class:'pillcontain'}}/>
                     })}
             </DivContainer>

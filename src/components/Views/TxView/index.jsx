@@ -20,28 +20,22 @@ const TxView = ({ props, animations }) => {
             <DivContainer containerClass={{ class: 'blocktxcontain' }}>
                 {/* saftey check for display */}
                 <DivContainer containerClass={{ class: 'blocktitlescontain' }}>
-                                <TitleHeading props={{ headerSize: 3, title: `Block #${blockSelected} (${blockSelectedAllTxLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
-                                <TitleHeading onClick={() => loadBlockRewardData(txViewBlockSelectedData)} props={{ headerSize: 4, title: `Click Here to See Block Reward (Uncle not Included)` }} titleClass={{ class: 'blockrewardtitleheading' }} />
-                                {blockSelectedTxSendingEthLength > 0 &&
-
-                                
-                                <TitleHeading props={{ headerSize: 3, title: `Showing Transactions Only Sending ETH (${blockSelectedTxSendingEthLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
-                                }
+                    <TitleHeading props={{ headerSize: 3, title: `Block #${blockSelected} (${blockSelectedAllTxLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
+                    <TitleHeading onClick={() => loadBlockRewardData(txViewBlockSelectedData)} props={{ headerSize: 4, title: `Click Here to See Block Reward (Uncle not Included)` }} titleClass={{ class: 'blockrewardtitleheading' }} />
+                    {blockSelectedTxSendingEthLength > 0 &&
+                        <TitleHeading props={{ headerSize: 3, title: `Showing Transactions Only Sending ETH (${blockSelectedTxSendingEthLength} Transactions)` }} titleClass={{ class: 'blocktitleheading' }} />
+                    }
                 </DivContainer>
                 {blockSelectedTxSendingEthLength <= 0 ?
                     <LoadingBar props={{ msg: 'This Block Has No TXs....Check Another!', showLoader: false }} /> :
                     loadingTxViewData ? <LoadingBar props={{ msg: 'Loading Tx Data....', showLoader: true }} /> :
-                        
-
-
-                            <DivContainer containerClass={{ class: 'listcontain' }}>
-                                {blockSelectedTxSendingEth.map((data) => {
-                                    let childProps = { parentProps: props, data };
-                                    return <TxsPill key={data.txHash} props={childProps} animations={animations} />
-                                })
-                                }
-                            </DivContainer>
-
+                        <DivContainer containerClass={{ class: 'listcontain' }}>
+                            {blockSelectedTxSendingEth.map((data) => {
+                                let childProps = { parentProps: props, data };
+                                return <TxsPill key={data.txHash} props={childProps} animations={animations} />
+                            })
+                            }
+                        </DivContainer>
                 }
                 <GoBackButton />
             </DivContainer>

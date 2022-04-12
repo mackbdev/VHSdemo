@@ -320,13 +320,20 @@ const App = () => {
         }
     }
 
-    const props = { userViewBlocksHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, txViewSelect, loadBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, loadAppData, web3Login, web3Logout, userDataState, didCoreDataFail };
+    const layoutProps = { didCoreDataFail };
 
     const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userDataState, myBlocksViewSelect };
 
     const infoProps = { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 
-    const layoutProps = { didCoreDataFail }
+    const dashProps = { toggleLiveUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, web3Login, web3Logout, userDataState, loadAppData, didCoreDataFail };
+
+    const latestBlockViewProps = { loadingDashboardData, blocksData, txViewSelect, priceData, fixedNoRound2 };
+    
+    const myBlockViewProps = { userViewBlocksHistory, txViewSelect, priceData, fixedNoRound2 };
+
+    const txViewProps = { loadingTxViewData, txViewBlockSelectedData, loadBlockRewardData, getVanity, etherscanLinks };
+
 
     // light in & out animation with framer for realtime block updates
     const isPresent = useIsPresent();
@@ -346,19 +353,19 @@ const App = () => {
             <Router>
                 <AppLayout props={layoutProps} navProps={navProps} infoProps={infoProps}>
                     <Routes>
-                        <Route path="/" element={<Dashboard props={props} />}>
-                            <Route index element={<LatestBlocksView props={props} animations={animations} />} />
+                        <Route path="/" element={<Dashboard props={dashProps} />}>
+                            <Route index element={<LatestBlocksView props={latestBlockViewProps} animations={animations} />} />
                             <Route path="myBlocksView" element={
                                 isUserLoggedIn ?
                                     <React.Suspense fallback={<>...</>}>
-                                        <MyBlocksView props={props} animations={animations} />
+                                        <MyBlocksView props={myBlockViewProps} animations={animations} />
                                     </React.Suspense> : <Navigate to='/' />
                             }
                             />
                             <Route path="txView" element={
                                 txViewBlockSelectedData ?
                                     <React.Suspense fallback={<>...</>}>
-                                        <TxView props={props} animations={animations} />
+                                        <TxView props={txViewProps} animations={animations} />
                                     </React.Suspense> : <Navigate to='/' />
                             }
                             />

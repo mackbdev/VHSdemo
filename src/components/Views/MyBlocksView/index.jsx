@@ -6,7 +6,8 @@ import GoBackButton from '../../Buttons/GoBackButton'
 
 const MyBlocksView = ({ props, animations }) => {
 
-    let { userViewBlocksHistory } = { ...props }
+    const { userViewBlocksHistory } = { ...props }
+    
     let blocksViewed = userViewBlocksHistory.length || 0;
 
     return (
