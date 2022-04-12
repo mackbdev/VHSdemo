@@ -27,7 +27,6 @@ const App = () => {
     // set data state
     const [priceData, setPriceData] = useState('....');
     const [blocksData, setBlocksData] = useState('....');
-    const [selectedBlock, setSelectedBlock] = useState(false);
     const [selectedBlockRewardData, setSelectedBlockRewardData] = useState(false);
 
     // live update settings, use refs to persist data between renders
@@ -174,7 +173,7 @@ const App = () => {
             // check if user already viewed block
             if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
             tryToCacheBlockViewed(userID, userViewCache);
-            console.log({ msg: 'block viewed', userViewCache, blockSelectedData })
+            //console.log({ msg: 'block viewed', userViewCache, blockSelectedData })
         } else {
             tryToCacheBlockViewed(userID, [blockSelectedData]);
         }
@@ -195,21 +194,21 @@ const App = () => {
         setLoadingTxViewData(false);
     }
     const txViewSelect = async (blockSelected, isMyBlocksView) => {
-        setSelectedBlock(blockSelected);
+        
         if (blockSelected === false) return
 
         let blockSelectedData;
 
         // show transactions for user blocks stored
-        if (isMyBlocksView) {
-            blockSelectedData = localStorage.getItem(userDataState.userID) || false;
-            blockSelectedData = blockSelectedData !== false ? JSON.parse(blockSelectedData) : blockSelectedData
-            blockSelectedData = blockSelectedData.find(data => data.block === blockSelected);
-        } else {
-            let latestBlocks = blocksData.latestBlocksFiltered;
-            blockSelectedData = latestBlocks.find(data => data.block === blockSelected);
-            storeBlocksViewedHandler(blockSelectedData)
-        }
+            if (isMyBlocksView) {
+                blockSelectedData = localStorage.getItem(userDataState.userID) || false;
+                blockSelectedData = blockSelectedData !== false ? JSON.parse(blockSelectedData) : blockSelectedData
+                blockSelectedData = blockSelectedData.find(data => data.block === blockSelected);
+            } else {
+                let latestBlocks = blocksData.latestBlocksFiltered;
+                blockSelectedData = latestBlocks.find(data => data.block === blockSelected);
+                if (isUserLoggedIn) storeBlocksViewedHandler(blockSelectedData)
+            }
 
         setTxViewBlockSelectedData(blockSelectedData);
         setLoadingTxViewData(false)
@@ -318,7 +317,7 @@ const App = () => {
                             }
                             />
                             <Route path="txView" element={
-                                selectedBlock ?
+                                txViewBlockSelectedData ?
                                     <React.Suspense fallback={<>...</>}>
                                         <TxView props={props} animations={animations} />
                                     </React.Suspense> : <Navigate to='/' />
