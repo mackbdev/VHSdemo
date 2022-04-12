@@ -17,8 +17,7 @@ const Nav = ({ props }) => {
                     <Logo />
                 </DivContainer>
                 <DivContainer containerClass={{ class: 'rightnavcontain' }}>
-                    <HomeButton props={props} />
-
+                    <HomeButton />
                     <LoginButton props={props} />
                     {isUserLoggedIn && <MyBlocksButton props={props} />}
 

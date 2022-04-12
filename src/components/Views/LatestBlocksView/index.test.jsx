@@ -1,4 +1,5 @@
 import { queryAllByRole, queryByRole, render, screen } from '@testing-library/react';
+import { BrowserRouter as Router} from 'react-router-dom';
 import LatestBlocksView from './index';
 let loadingDashboardData = false;
 let blocksData = {
@@ -33,14 +34,14 @@ let props = { loadingDashboardData, blocksData, priceData, txViewSelect, fixedNo
 describe('Latest Blocks View component', () => {
 
     it('Checks if block heading is visibile', async () => {
-        const { queryAllByRole } = render(<LatestBlocksView props={props} />)
+        const { queryAllByRole } = render(<Router><LatestBlocksView props={props} /></Router>)
         const allHeadingElements = queryAllByRole('heading');
         let singleBlockHeading = allHeadingElements.find(heading => heading.innerHTML.includes('Block #'))
        expect(singleBlockHeading).toBeVisible()
     })
 
     it('Counts that the block headings rendered match the length of input data', async () => {
-        const { queryAllByRole } = render(<LatestBlocksView props={props} />)
+        const { queryAllByRole } = render(<Router><LatestBlocksView props={props} /></Router>)
         const allHeadingElements = queryAllByRole('heading');
         let blocksHeading = allHeadingElements.filter(heading => heading.innerHTML.includes('Block #'))
         let blocksHeadingLength = blocksHeading.length;

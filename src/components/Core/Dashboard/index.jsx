@@ -1,15 +1,12 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { useIsPresent } from 'framer-motion'
 import { toast } from 'react-toastify';
-import MyBlocksView from '../../Views/MyBlocksView'
-import LatestBlocksView from '../../Views/LatestBlocksView'
-import TxView from '../../Views/TxView'
-import { providers, staticData, evmChains, _infuraID } from '../../../backend/staticVariables'
+import { Outlet } from 'react-router-dom';
+import { providers, staticData, evmChains } from '../../../backend/staticVariables'
 
 // toggle between views
-const Dashboard = ({ props }) => {
+const Dashboard = ({ props, animations }) => {
 
-    const { view, toggleLiveUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, web3Login, web3Logout, userDataState, getAppData, didCoreDataFail } = { ...props }
+    const { toggleLiveUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, web3Login, web3Logout, userDataState, getAppData, didCoreDataFail } = { ...props }
     // -- useEffects --//
     useLayoutEffect(() => {
 
@@ -80,33 +77,10 @@ const Dashboard = ({ props }) => {
         //console.log('after listener starts count', currentProvider.current.listeners())
     }, [toggleLiveNotifyUpdatesState, toggleLiveDashboardUpdatesState, toggleLiveUpdatesState])
 
-    // light in & out animation with framer for realtime block updates
-    let isPresent = useIsPresent();
-    let animations = {
-        style: {
-            position: isPresent ? 'static' : 'absolute'
-        },
-        initial: { scale: 1, opacity: 0 },
-        animate: { scale: 1, opacity: 1 },
-        exit: { scale: 1, opacity: 0.8 },
-        transition: { ease: [0.42, 0, 0.58, 1], duration: 0.8 }
-    }
-
     return (
-        <>
-            {view === "myBlocksView" && (
-                <MyBlocksView props={props} animations={animations} />
-            )}
-
-            {view === "txView" && (
-                <TxView props={props} animations={animations} />
-            )}
-
-            {view === "latestBlocksView" && (
-                <LatestBlocksView props={props} animations={animations} />
-            )}
-        </>
+        <Outlet/>
     )
+
 };
 
 export default Dashboard;

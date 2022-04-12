@@ -3,13 +3,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
 import Web3Modal from "web3modal";
+import { useIsPresent } from 'framer-motion'
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Dashboard from './components/Core/Dashboard'
 import { addresses, providers, staticData, evmChains, _infuraID, etherscanLinks } from './backend/staticVariables'
-import { getVanity, fixedNoRound2, getLiveDexPrice, getLatestBlock, getTxFee, getBlockReward, initBlocks } from './backend/coreFunctions'
-import 'react-toastify/dist/ReactToastify.css';
+import { getVanity, fixedNoRound2, getLiveDexPrice, getBlockReward, initBlocks } from './backend/coreFunctions'
 import AppLayout from './components/Layouts/AppLayout';
 import ErrorPage from './components/Pages/ErrorPage';
+import MyBlocksView from './components/Views/MyBlocksView'
+import LatestBlocksView from './components/Views/LatestBlocksView'
+import TxView from './components/Views/TxView'
+import 'react-toastify/dist/ReactToastify.css';
 
 // -- app component -- //
 const App = () => {
@@ -37,6 +41,12 @@ const App = () => {
     const [toggleLiveNotifyUpdatesState, setToggleLiveNotifyUpdatesState] = useState(true);
     const [toggleLiveDashboardUpdatesState, setToggleLiveDashboardUpdatesState] = useState(true);
 
+    //-- view states --//
+    const [didCoreDataFail, setDidCoreDataFail] = useState(false);
+    const [loadingDashboardData, setLoadingDashboardData] = useState(true);
+    const [loadingTxViewData, setLoadingTxViewData] = useState(true);
+    const [loadingBlockRewardData, setLoadingBlockRewardData] = useState(false);
+    const [txViewBlockSelectedData, setTxViewBlockSelectedData] = useState(false);
 
     // live update state handler
     const liveUpdateStateHandler = (newState) => {
@@ -82,14 +92,6 @@ const App = () => {
             return newState
         });
     };
-
-    //-- view states --//
-    const [didCoreDataFail, setDidCoreDataFail] = useState(false);
-    const [loadingDashboardData, setLoadingDashboardData] = useState(true);
-    const [loadingTxViewData, setLoadingTxViewData] = useState(true);
-    const [loadingBlockRewardData, setLoadingBlockRewardData] = useState(false);
-    const [txViewBlockSelectedData, setTxViewBlockSelectedData] = useState(false);
-    const [view, setView] = useState('latestBlocksView');
 
     //-- web3 auth --//
     const web3Login = async () => {
@@ -148,75 +150,76 @@ const App = () => {
         setLoadingUserLogin(true)
         setIsUserLoggedIn(false)
         setLoadingUserLogin(false)
-        setView('latestBlocksView')
     }
 
-    // user to set logged in user blocks viewed to localstorage
-    const storeBlocksViewedHandler = (blockSelectedData) => {
-        // handle caching of blocks viewed by a given user
-        if (isUserLoggedIn && view === 'latestBlocksView') {
-            let userViewCache = localStorage.getItem(userDataState.userID) || false;
-            if (userViewCache) {
-                userViewCache = JSON.parse(userViewCache)
-                // check if user already viewed block
-                if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
-                localStorage.setItem(userDataState.userID, JSON.stringify(userViewCache))
-                //console.log({ msg: 'block viewed', userViewCache,blockSelectedData })
-
-            } else {
-                try {
-                    localStorage.setItem(userDataState.userID, JSON.stringify([blockSelectedData]))
-                } catch (err) {
-                    toast.error('LocalStorage Error, Out of space!', { position: toast.POSITION.TOP_RIGHT })
-                }
-
-            }
+    //-- handlers --//
+    // try to set data give to localStorage
+    const tryToCacheBlockViewed = (userID,cacheData) => {
+        try {
+            localStorage.setItem(userID, JSON.stringify(cacheData))
+            console.log({msg:'complete cache'})
+        } catch (err) {
+            toast.error('LocalStorage Error ~ Out of space!', { position: toast.POSITION.TOP_RIGHT })
         }
+    }
+    // cache blocks viewed if user logged in
+    const storeBlocksViewedHandler = async (blockSelectedData) => {
+
+        let userID = userDataState.userID;
+        let userViewCache = localStorage.getItem(userDataState.userID) || false;
+
+        if (userViewCache) {
+            userViewCache = JSON.parse(userViewCache)
+            // check if user already viewed block
+            if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
+            tryToCacheBlockViewed(userID,userViewCache);
+            console.log({ msg: 'block viewed', userViewCache, blockSelectedData })
+        } else {
+            tryToCacheBlockViewed(userID,[blockSelectedData]);
+        }
+
     }
 
     // -- view state controllers --//
     // myBlocksView, txView, latestBlocksView
-    const latestBlocksViewSelect = () => setView('latestBlocksView');
-    const myBlocksViewSelect = (userID) => {
+    const myBlocksViewSelect = () => {
         // small user auth handle
-        if (!isUserLoggedIn) return latestBlocksViewSelect();
+        if (!isUserLoggedIn) return
+        let userID = userDataState.userID;
         let userViewCache = localStorage.getItem(userID) || false;
         userViewCache = userViewCache !== false ? JSON.parse(userViewCache) : userViewCache
         console.log({ isUserLoggedIn, userViewCache })
         setLoadingTxViewData(true)
         setUserViewBlocksHistory(userViewCache);
         setLoadingTxViewData(false);
-        setView('myBlocksView');
     }
-    const txViewSelect = async (blockSelected) => {
+    const txViewSelect = async (blockSelected,isMyBlocksView) => {
 
-        if (blockSelected === false) return latestBlocksViewSelect()
+        if (blockSelected === false) return
 
         let blockSelectedData;
 
         // show transactions for user blocks stored
-        if (view === 'myBlocksView') {
+        if (isMyBlocksView) {
             blockSelectedData = localStorage.getItem(userDataState.userID) || false;
             blockSelectedData = blockSelectedData !== false ? JSON.parse(blockSelectedData) : blockSelectedData
             blockSelectedData = blockSelectedData.find(data => data.block === blockSelected);
         } else {
             let latestBlocks = blocksData.latestBlocksFiltered;
             blockSelectedData = latestBlocks.find(data => data.block === blockSelected);
+            storeBlocksViewedHandler(blockSelectedData)
         }
-
-        storeBlocksViewedHandler(blockSelectedData)
 
         setTxViewBlockSelectedData(blockSelectedData);
         setLoadingTxViewData(false)
-        setView('txView');
 
     }
-
+    
     // -- Gather data -- //
     // load block reward, uncle block not inlcuded
     const loadBlockRewardData = async (blockSelected) => {
         if (loadingBlockRewardData) return toast.warning('Only 1 Block at time ~ Due to rate limiting!')
-        if (blockSelected === false) return latestBlocksViewSelect()
+        if (blockSelected === false) return
         if (blockSelected.blockTxsLength > 100) throw toast.warning('Try a Block with 100 TXs or Less ~ Due to rate limiting!')
         setLoadingBlockRewardData(true);
         let block = blockSelected.block;
@@ -279,22 +282,38 @@ const App = () => {
         }
     }
 
-    const props = { userViewBlocksHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, view, latestBlocksViewSelect, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive,isDashboardUpdateLive, enableLiveUpdates, getAppData, web3Login, web3Logout, userDataState, didCoreDataFail };
+    const props = { userViewBlocksHistory, loadingDashboardData, loadingTxViewData, txViewBlockSelectedData, priceData, blocksData, txViewSelect, loadBlockRewardData, selectedBlockRewardData, getVanity, etherscanLinks, fixedNoRound2, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState, ethers, currentProvider, isProviderListening, isBlockNotificationLive, isDashboardUpdateLive, enableLiveUpdates, getAppData, web3Login, web3Logout, userDataState, didCoreDataFail };
 
-    const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userDataState, myBlocksViewSelect, setView };
+    const navProps = { web3Login, web3Logout, isUserLoggedIn, loadingUserLogin, userDataState, myBlocksViewSelect };
 
     const infoProps = { priceData, blocksData, toggleLiveUpdates, toggleLiveUpdatesState, toggleLiveDashboardUpdates, toggleLiveDashboardUpdatesState, toggleLiveNotifyUpdates, toggleLiveNotifyUpdatesState };
 
-    const layoutProps = {didCoreDataFail}
+    const layoutProps = { didCoreDataFail }
+
+    // light in & out animation with framer for realtime block updates
+    const isPresent = useIsPresent();
+    const animations = {
+        style: {
+            position: isPresent ? 'static' : 'absolute'
+        },
+        initial: { scale: 1, opacity: 0 },
+        animate: { scale: 1, opacity: 1 },
+        exit: { scale: 1, opacity: 0.8 },
+        transition: { ease: [0.42, 0, 0.58, 1], duration: 0.8 }
+    }
 
     return (
 
         <span data-testid='app'>
             <Router>
                 <AppLayout props={layoutProps} navProps={navProps} infoProps={infoProps}>
-                    <Routes>
-                        <Route path="/" element={<Dashboard props={props} />} />
-                        <Route path="*" element={<ErrorPage props={{message:'404! Where are you?'}} />} />
+                    <Routes>    
+                        <Route path="/" element={<Dashboard props={props} />}>
+                            <Route index element={<LatestBlocksView props={props} animations={animations} />} />
+                            <Route path="myBlocksView" element={<MyBlocksView props={props} animations={animations} />} />
+                            <Route path="txView" element={<TxView props={props} animations={animations} />} />
+                        </Route>
+                        <Route path="*" element={<ErrorPage props={{ message: '404! Where are you?' }} />} />
                     </Routes>
                 </AppLayout>
             </Router>

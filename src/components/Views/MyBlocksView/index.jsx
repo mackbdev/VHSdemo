@@ -2,6 +2,7 @@ import DivContainer from '../../Containers/DivContainer'
 import LoadingBar from '../../Misc/LoadingBar'
 import BlockPill from '../../Misc/BlockPill'
 import TitleHeading from '../../Misc/TitleHeading'
+import GoBackButton from '../../Buttons/GoBackButton'
 
 const MyBlocksView = ({ props, animations }) => {
 
@@ -23,6 +24,7 @@ const MyBlocksView = ({ props, animations }) => {
                         return <BlockPill key={data.block} props={childProps} animations={animations} pillClass={{class:'txpillcontain'}}/>
                     })}
                 </DivContainer>
+                <GoBackButton />
             </DivContainer>
         </DivContainer>
 

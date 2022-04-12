@@ -1,13 +1,19 @@
 import '../index.css';
+import { useNavigate } from 'react-router-dom';
 
 const MyBlocksButton = ({ props }) => {
 
-    const { userDataState, myBlocksViewSelect } = { ...props };
+    const { myBlocksViewSelect } = { ...props };
+    
+    const navigate = useNavigate();
+    
+    const myBlocksViewNavigate = async () => {
+        await myBlocksViewSelect()
+        navigate('/myBlocksView')
+    }
 
     return (
-        <>
-            <button  onClick={() => myBlocksViewSelect(userDataState.userID)} className="button">My Blocks</button>
-        </>
+            <button onClick={() => myBlocksViewNavigate()} className="button">My Blocks</button>
     )
 };
 

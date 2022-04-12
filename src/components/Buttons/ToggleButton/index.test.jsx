@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import ToggleButton from './index';
 
 describe('ToggleButton Component', () => {
-
+    
     it('Expect toggle button to be rendered', () => {
         const { getByTestId } = render(
             <ToggleButton

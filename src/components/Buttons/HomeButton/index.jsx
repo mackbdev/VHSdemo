@@ -1,12 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import '../index.css';
 
 const HomeButton = ({ props }) => {
 
-    const { setView } = { ...props }
+    const navigate = useNavigate();
 
     return (
 
-        <button onClick={() => setView('latestBlocksView')} className="button">Home</button>
+        <button onClick={() => navigate('/')} className="button">Home</button>
 
     )
 };
