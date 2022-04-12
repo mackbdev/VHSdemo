@@ -1,19 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ethers } from 'ethers';
 import { toast } from 'react-toastify';
-import Web3Modal from "web3modal";
 import { useIsPresent } from 'framer-motion'
+import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import Dashboard from './components/Core/Dashboard'
 import { addresses, providers, staticData, evmChains, _infuraID, etherscanLinks } from './backend/staticVariables'
 import { getVanity, fixedNoRound2, getLiveDexPrice, getBlockReward, initBlocks } from './backend/coreFunctions'
+import 'react-toastify/dist/ReactToastify.css';
 import AppLayout from './components/Layouts/AppLayout';
 import ErrorPage from './components/Pages/ErrorPage';
-import MyBlocksView from './components/Views/MyBlocksView'
+import Dashboard from './components/Core/Dashboard'
 import LatestBlocksView from './components/Views/LatestBlocksView'
-import TxView from './components/Views/TxView'
-import 'react-toastify/dist/ReactToastify.css';
+const MyBlocksView = React.lazy(() => import('./components/Views/MyBlocksView'));
+const TxView = React.lazy(() => import('./components/Views/TxView'));
 
 // -- app component -- //
 const App = () => {
@@ -27,6 +27,7 @@ const App = () => {
     // set data state
     const [priceData, setPriceData] = useState('....');
     const [blocksData, setBlocksData] = useState('....');
+    const [selectedBlock, setSelectedBlock] = useState(false);
     const [selectedBlockRewardData, setSelectedBlockRewardData] = useState(false);
 
     // live update settings, use refs to persist data between renders
@@ -154,10 +155,10 @@ const App = () => {
 
     //-- handlers --//
     // try to set data give to localStorage
-    const tryToCacheBlockViewed = (userID,cacheData) => {
+    const tryToCacheBlockViewed = (userID, cacheData) => {
         try {
             localStorage.setItem(userID, JSON.stringify(cacheData))
-            console.log({msg:'complete cache'})
+            console.log({ msg: 'complete cache' })
         } catch (err) {
             toast.error('LocalStorage Error ~ Out of space!', { position: toast.POSITION.TOP_RIGHT })
         }
@@ -172,10 +173,10 @@ const App = () => {
             userViewCache = JSON.parse(userViewCache)
             // check if user already viewed block
             if (!userViewCache.find(block => block.block === blockSelectedData.block)) userViewCache.push(blockSelectedData);
-            tryToCacheBlockViewed(userID,userViewCache);
+            tryToCacheBlockViewed(userID, userViewCache);
             console.log({ msg: 'block viewed', userViewCache, blockSelectedData })
         } else {
-            tryToCacheBlockViewed(userID,[blockSelectedData]);
+            tryToCacheBlockViewed(userID, [blockSelectedData]);
         }
 
     }
@@ -193,8 +194,8 @@ const App = () => {
         setUserViewBlocksHistory(userViewCache);
         setLoadingTxViewData(false);
     }
-    const txViewSelect = async (blockSelected,isMyBlocksView) => {
-
+    const txViewSelect = async (blockSelected, isMyBlocksView) => {
+        setSelectedBlock(blockSelected);
         if (blockSelected === false) return
 
         let blockSelectedData;
@@ -214,7 +215,7 @@ const App = () => {
         setLoadingTxViewData(false)
 
     }
-    
+
     // -- Gather data -- //
     // load block reward, uncle block not inlcuded
     const loadBlockRewardData = async (blockSelected) => {
@@ -307,11 +308,23 @@ const App = () => {
         <span data-testid='app'>
             <Router>
                 <AppLayout props={layoutProps} navProps={navProps} infoProps={infoProps}>
-                    <Routes>    
+                    <Routes>
                         <Route path="/" element={<Dashboard props={props} />}>
                             <Route index element={<LatestBlocksView props={props} animations={animations} />} />
-                            <Route path="myBlocksView" element={<MyBlocksView props={props} animations={animations} />} />
-                            <Route path="txView" element={<TxView props={props} animations={animations} />} />
+                            <Route path="myBlocksView" element={
+                                isUserLoggedIn ?
+                                    <React.Suspense fallback={<>...</>}>
+                                        <MyBlocksView props={props} animations={animations} />
+                                    </React.Suspense> : <Navigate to='/' />
+                            }
+                            />
+                            <Route path="txView" element={
+                                selectedBlock ?
+                                    <React.Suspense fallback={<>...</>}>
+                                        <TxView props={props} animations={animations} />
+                                    </React.Suspense> : <Navigate to='/' />
+                            }
+                            />
                         </Route>
                         <Route path="*" element={<ErrorPage props={{ message: '404! Where are you?' }} />} />
                     </Routes>
