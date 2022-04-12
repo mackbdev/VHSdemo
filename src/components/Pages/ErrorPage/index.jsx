@@ -1,7 +1,5 @@
 import DivContainer from '../../Containers/DivContainer'
 import Loadingbar from '../../Misc/LoadingBar';
-import TitleHeading from '../../Misc/TitleHeading';
-import Nav from '../../Core/Nav'
 
 const ErrorPage = ({ props }) => {
 

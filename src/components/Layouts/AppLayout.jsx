@@ -1,7 +1,6 @@
 import DivContainer from '../Containers/DivContainer'
 import { ToastContainer } from 'react-toastify';
 import InfoBox from '../Core/InfoBox'
-import Loadingbar from '../Misc/LoadingBar';
 import TitleHeading from '../Misc/TitleHeading';
 import ErrorPage from '../Pages/ErrorPage';
 import Nav from '../Core/Nav'

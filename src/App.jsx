@@ -10,7 +10,7 @@ import { getVanity, fixedNoRound2, getLiveDexPrice, getBlockReward, initBlocks }
 import 'react-toastify/dist/ReactToastify.css';
 import AppLayout from './components/Layouts/AppLayout';
 import ErrorPage from './components/Pages/ErrorPage';
-import Dashboard from './components/Core/Dashboard'
+import Dashboard from './components/Pages/Dashboard'
 import LatestBlocksView from './components/Views/LatestBlocksView'
 const MyBlocksView = React.lazy(() => import('./components/Views/MyBlocksView'));
 const TxView = React.lazy(() => import('./components/Views/TxView'));
@@ -265,7 +265,6 @@ const App = () => {
         });
 
     }
-
     // load init data
     const getAppData = async (providerWSS, latestCount) => {
         try {
