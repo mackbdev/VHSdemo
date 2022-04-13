@@ -1,6 +1,6 @@
 # Latest 10 Blocks VHS Demo - Optimized + API
 
-`The branch is the reactRouter branch merged with the expressAPI branch. The API will be consumed using Axios.`
+`The branch is the reactRouter branch merged with the expressAPI branch. The API is consumed using Axios.`
 
 ## How To
 
