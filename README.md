@@ -4,6 +4,8 @@ This project was created with [Create React App](https://github.com/facebook/cre
 
 `This project loads the 10 most recent blocks from the ethereum chain and displays curated data.`
 
+`Be sure to check out the other branches!`
+
 ## Key Features
 
 - Fully decentralized using any ethereum rpc websocket, the goal was to use no 3rd party APIs.
@@ -36,7 +38,7 @@ This project was created with [Create React App](https://github.com/facebook/cre
     * The formula for reward of a given block is the current static miner payout of 2 ETH + Gasfees paid - Gasfees burned + a portion of the uncle block if any are present. 
     * Due to the fact uncle blocks cannot be queried in real time the number displayed excludes the uncle block values.
 
-- A toggle was added to either disable notifications that allows current blocks displayed to remain for browsing.
+- A toggle was added to disable notifications which allows current blocks displayed to remain for browsing.
     * Individual toggles for notifications and dashboard updates were added to customize realtime delivery.
 
 - Connecting/Logging in will store all blocks viewed by that user. A view was created to see the blocks you have visited/inspected (Click on My Blocks in the nav once logged in).
