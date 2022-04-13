@@ -39,6 +39,7 @@
   -ms-transform: scale(1.1);
   transform: scale(1.1);
 }
+
 .togglebutton {
   display: -webkit-box;
   display: -webkit-flex;
@@ -76,6 +77,10 @@
   -webkit-transform-origin: 50% 50%;
   -ms-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
+}
+
+.togglestrike{
+  text-decoration: line-through;
 }
 
 .closebuttoncontain {

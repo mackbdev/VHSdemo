@@ -1,15 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-import '../index.css';
+import Button from '../Button';
 
-const HomeButton = ({ props }) => {
+const HomeButton = () => {
 
     const navigate = useNavigate();
 
     return (
 
-        <button onClick={() => navigate('/')} className="button">Home</button>
+        <Button onClick={() => navigate('/')} buttonClass={{class:"button"}} props={{title:'Home'}}/>
 
     )
+    
 };
 
 export default HomeButton;

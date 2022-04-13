@@ -228,7 +228,7 @@ const App = () => {
             setPriceData(result);
         })
     }
-    const getBlocksData = async (latestCount) => {
+    const getInitBlocks = async (latestCount) => {
         //let getBlocksData = await initBlocks(providerWSS, latestCount);
         Axios.get(`${server}/api/initBlocks/${latestCount}`).then((res) => {
             let data = res.data;
@@ -310,8 +310,8 @@ const App = () => {
     // load init data
     const loadAppData = async (latestCount) => {
         try {
+            await getInitBlocks(latestCount);
             await getPriceData()
-            await getBlocksData(latestCount);
             setDidCoreDataFail(false)
         } catch (err) {
             console.log({ err })

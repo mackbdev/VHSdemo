@@ -1,20 +1,24 @@
-import '../index.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import Button from "../Button"
 
 const MyBlocksButton = ({ props }) => {
 
     const { myBlocksViewSelect } = { ...props };
-    
     const navigate = useNavigate();
-    
+
     const myBlocksViewNavigate = async () => {
-        await myBlocksViewSelect()
-        navigate('/myBlocksView')
-    }
+        await myBlocksViewSelect();
+        navigate("/myBlocksView");
+    };
 
     return (
-            <button onClick={() => myBlocksViewNavigate()} className="button">My Blocks</button>
-    )
+        <Button
+            onClick={myBlocksViewNavigate}
+            buttonClass={{ class: 'button' }}
+            props={{ title: 'My Blocks' }}
+        />
+    );
+
 };
 
 export default MyBlocksButton;

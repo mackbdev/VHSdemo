@@ -4,7 +4,7 @@ import './index.css'
 
 const Loadingbar = ({ props }) => {
 
-    let { msg, showLoader } = { ...props }
+    const { msg, showLoader } = { ...props }
 
     return (
 

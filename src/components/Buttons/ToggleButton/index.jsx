@@ -1,18 +1,28 @@
-import '../index.css';
+import Button from "../Button"
 
 const ToggleButton = ({ props }) => {
 
     const { data } = { ...props }
     const { state, toggleFunction, title } = { ...data }
-    
+
     return (
         <span data-testid="toggle-button">
             {state ?
-                <button onClick={toggleFunction} className="togglebutton">{title} ON</button> :
-                <button onClick={toggleFunction} className="togglebutton"><strike>{title} OFF</strike></button>
+                <Button
+                    onClick={toggleFunction}
+                    buttonClass={{ class: 'togglebutton' }}
+                    props={{ title: `${title} ON` }}
+                />
+                :
+                <Button
+                    onClick={toggleFunction}
+                    buttonClass={{ class: 'togglebutton togglestrike' }}
+                    props={{ title: `${title} OFF` }}
+                />
             }
         </span>
     )
+
 };
 
 export default ToggleButton;
