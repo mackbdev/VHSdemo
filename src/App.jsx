@@ -156,7 +156,6 @@ const App = () => {
     }
 
     //-- handlers --//
-
     // try to set data give to localStorage
     const tryToCacheBlockViewed = (userID, cacheData) => {
         try {
