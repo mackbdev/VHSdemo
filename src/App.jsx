@@ -29,8 +29,8 @@ const App = () => {
     const [loadingUserLogin, setLoadingUserLogin] = useState(false);
 
     // set data state
-    const [priceData, setPriceData] = useState('....');
-    const [blocksData, setBlocksData] = useState('....');
+    const [priceData, setPriceData] = useState(null);
+    const [blocksData, setBlocksData] = useState(null);
 
     // live update settings, use refs to persist data between renders
     const currentProvider = useRef(false);
@@ -98,6 +98,7 @@ const App = () => {
 
     //-- web3 auth --//
     const web3Login = async () => {
+
         setLoadingUserLogin(true)
 
         let provider;
@@ -156,7 +157,7 @@ const App = () => {
     }
 
     //-- handlers --//
-    // try to set data give to localStorage
+    // try to set data given to localStorage
     const tryToCacheBlockViewed = (userID, cacheData) => {
         try {
             localStorage.setItem(userID, JSON.stringify(cacheData))
@@ -251,7 +252,6 @@ const App = () => {
             return blockRewardData
         })
     }
-
 
     // -- Gather data -- //
     // load block reward, uncle block not inlcuded
