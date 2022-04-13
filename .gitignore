@@ -11,7 +11,7 @@
 /build
 
 # test
-/coverage
+**/coverage
 
 # misc
 **/.DS_Store
