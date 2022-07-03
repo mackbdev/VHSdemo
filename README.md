@@ -67,8 +67,6 @@ You may also see any lint errors in the console.
 
 ### `npm test`
 
-I do not have much experience testing React Apps.
-
 List of Tests:
 
 - App
